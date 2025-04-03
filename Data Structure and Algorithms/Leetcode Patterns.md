@@ -1,0 +1,34 @@
+![[Pasted image 20250403115411.png]]![[Pasted image 20250403115913.png]]
+Linear:
+- Two pointers:
+	- Can go in same direction:
+		- Processing or scanning the data in a single pass
+		- E.g. Fast-slow pointer approach to find a cycle or the middle of the list
+	- Or opposite direction:
+		- Used for finding pairs of comparing elements from opposite ends of the data structure
+		- E.g. Find two numbers in a sorted array that sum up to a target value (i.e. Two Sum II)
+- Sliding Window:
+	- Maintaining a window of elements within the data dynamically adjusting the size as you progress through the data structure
+	- Uses two pointers, but goal is to manage a subset of elements that satisfy a specific condition
+		- One pointer marks the start of the window, the other pointer marks the end
+	- E.g.  longest substring without repeating characters
+- Binary Search:
+	- Allows you to find a target value in a sorted array by repeatedly dividing the array in half
+	- Uses two pointers
+	- Useful for monotonic function - any type of pattern where there is a consistent increase or decrease 
+	- Also useful for finding the first true occurrence (i.e. if the array had only true and false)
+		- E.g. Find Minimum in Rotated Sorted Array
+			- Any element lower than the last element in the array is part of the rotated section
+			- Any element greater than the last element in the array is part of the original sorted section
+Non-Linear:
+- Data Structures:
+	- Trees 
+		- Trees are graphs with no cycles
+	- Graphs
+		- Have cycles
+		- Need a visited set to keep track of nodes you've already visited
+- Breadth-First Search
+	- Use to explore nodes in a graph or tree level-by-level
+		- Starts at a node (root) then moves to immediate neighbours before moving onto their neighbours
+	- Uses a queue:
+		- First in, First out (FIFO)

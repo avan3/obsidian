@@ -1,0 +1,126 @@
+- **Tell me about yourself**
+	-  I've been working in the tech field for roughly over 5 years. The majority of the time was spent as a full-stack developer. I'm mostly familiar with Angular and Spring Boot frameworks and by extension, TypeScript and Java programming languages. I spent a small portion of my professional career developing in React, and use it along with other technologies, such as NodeJS and MongoDB, in my personal projects as a way to learn more about the libraries or frameworks. 
+	- My current title at TD is Software Developer I. I work on two different teams where we manage applications built in Angular and Spring Boot that call APIs built by other teams as a way to provide data to the application, or leverage a SQL Server Database. 
+	- I believe when you work in the tech field, you have to learn and continuously grow. And I am interested in this position because I think that I would be able to translate my skills for this job while being good way for me to do learn and grow (add something to do with the job description)
+	- On one team, one application is for credit card management. Another application is for viewing business cards and the details, and another is for viewing Visa card statements. The latter two being read-only applications
+	- On the other team, they mainly manage APIs and have another app for pre-authorized debits
+- **Why are you leaving your current role**
+	- Like I mentioned before, I'm interested in learning and growing. I have been using Angular and Spring Boot in my work for a long time. I am interested in learning something new in a professional setting. 
+	- Also, I am interested in applying my skills is a different context
+- **What is your biggest weakness**
+	- I believe my communication skills could be improved. I think this is one of the most important skills to have or else there could be miscommunications. 
+	- I've faced this challenge at least a few times. Most recently, I started working with a coworker in my new team who I was previously familiar with and had conversations with. When we would talk about work, I noticed we would have miscommunications.
+	- For example, we have been discussing an issue I am facing with work related to some code using a different config file than the one we need our application to use due to some conditions. I explained to her what the code was doing, and that we needed to delete the wrong config file so that the code would then find the correct one. She was under the impression we needed to delete the correct config file. We got on a call to chat about it and we cleared it up.
+	- I took some time after the call to think about how I could've been more clear. I came up with two things:
+		- 1. I should be more specific in how I say things. She assumed I was talking about the correct config file, when I was talking about the incorrect one.
+		- 2. Experience. With more experience working with this coworker, I believe that we will understand each other more and less miscommunications will occur.
+	- 
+	- I used to work as a tutor while I was studying in Seneca. I found that with different students, they learn differently, so I would need to change how I taught them. Usually it involved simplifying the language or using a relatable example. 
+- **What do you consider your greatest achievement**
+	- The first time I received recognition from a coworker about my work.
+	- In my previous job at Architech, it was when I started working as a full-stack developer. I was very unsure of myself at the time. I felt inexperienced and probably had some imposter syndrome. 
+	- I worked when one specific coworker who worked as a Product Owner and was non-technical. I would often explain things to her, from my technical perspective, in a simple manner to the best of my ability. 
+	- Later on, she recognized me on a company wide weekly appreciation post. I took a screenshot of the post and I still have it on my phone.
+	- The reason I consider it my greatest achievement is because it made me realize that what I contribute to at work is making a difference, and gave me confidence in myself and motivation to continue working in this field. 
+- **Tell me about a difficult situation you faced, and how you handled it**
+	- About a year ago, we faced a production incident where some users were having trouble logging in to our application. This was after the decommissioning of Enterprise Directory (ED). 
+	- A coworker had previously migrated these users to a new AD group and updated the code to no longer search users from ED. So it was not immediately obvious what the issue was since the users should have access with the AD group.
+	- We found out later that these users were part of the RNET domain and not TDBFG when searching Active Directory (AD) 
+	- So we thought instead to authorize the user, we could search the users by AD group, and allow access if the user could be found in that list. 
+	- We suspected there may be a limit of 1500 to how many users can be searched in AD. However, we could not immediately confirm it because we did not have 1500 users in any AD group. 
+	- There were suggestions of QE team generating the data, or bringing data from PROD to PAT environment and updating the sensitive information. However, due to timeline and effort constraints, we could not proceed with that.
+	- After the first deployment in PROD, the issue was not resolved. At some point, we also had to revert the ED decommission changes.
+	- 
+- **Do you have any questions for us**
+	- What is your team currently working on?
+	- How does your team operate on a day-to-day basis? E.g. my current team follows Agile
+	- How can someone get up to speed quickly on this team?
+	- What do you expect from a successful candidate in the 3 months of this role?
+
+**Resume specific notes**
+- At TD:
+	- First bullet point (API Integration cost-saving initiative): 
+		- The application CCMN uses branch information including cost center number, operating hours, location. 
+		- Previous to me joining this team, they had a website where they would scrape the branch information from that website. However, that website would be decommissioned
+		- The interim solution, that ended up being a long term solution, was that we would maintain a .txt file with of the branch information, and our code would parse this file
+		- Usually multiple times in the calendar year, there would be a requirement to update the BranchInformation.txt file due to location changes or adding new branches. These updates would come to us from another team with an effective date where we would have to make the changes prior to this date.
+		- This would require BSA/PO to create a story for the change, devs to make the change, QE to test, and involvement from the release team for the purpose of the deployment to higher environments.
+		- The now permanent solution was for a separate team to create an API that would have all the branch information including any updates needed. Our application would make a request to this API daily to get all the branch information saved in an in-memory cache. 
+		- After the solution was created, we no longer had to go through the repetitive process of the updates and deployments which, according to my PO, saved us $1M annually
+	- Second bullet point (PDF prepopulation logic):
+		- The application CCBCH leverages forms within PDFs to be filled out by the TD employee and the customer. For example, we have a form that is used for when the customer wants to transfer Aeroplan numbers to a new one.
+		- We had a requirement to add new forms to the application and prepopulate the forms with certain customer information. 
+		- Luckily, we already had some code in our codebase which dealt with prepopulation. For this requirement, we just had to expand on this. 
+		- Each new form required going through the form and finding all the different fields and populating it with the correct customer/business information. 
+		- There were a lot of edge cases, mainly involving incorrect numbering of the fields which ended up breaking our prepopulation logic. So I had to add specific conditions to handle this. Also, I documented all of these edge cases which was referenced quite a bit by my PO.
+		- In the end, another PO sent out an email to quite a large amount of people notifying them of the changes, and recognizing our team for the work. 
+	- Third bullet point (modernization of web application):
+		- 
+- At Jonah Group:
+	- First bullet point (email notification):
+		- System admin would need to know which passwords would expire, so in order to make sure system admin would know which passwords were expiring/expired, we developed a feature that would email the user daily when their password was expiring within a pre-defined time frame, or if it had already expired
+	- Second bullet point (export dataset feature):
+		- Application currently had an import feature that could import different file types. We created a feature that exported the data in a CSV format initially which was to be extended later on. 
+- At Architech:
+	- 
+**React**
+- JavaScript library used for creating user interfaces based on components
+- Has components which are reusable blocks of code that return HTML
+	- Functional:
+		- Pure JavaScript component
+		- No render method 
+	- Class:
+		- Requires you to extend from React
+		- Has a render method returning JSX
+- Props are like function parameters passing in data/values into children component
+	- Is Immutable and is read-only
+- State are property values for the component
+	- Is mutable which means you can read and write to it
+- Uses JSX (JavaScript and XML) which is a syntax extension of JavaScript
+	- Can write HTML structures in the same file that contains JavaScript code
+- Child components cannot update data coming from the parent component
+- DOM: Document Object Model is the data representation of the objects that comprise the structure and content of a document on the web
+- Virtual DOM: Lightweight representation of the real DOM in memory
+- ES6 vs ES5: 
+	- ES6 has class syntax. Creating classes instead of the functional way of creating components
+	- ES6 can import packages using import keyword instead of require keyword
+- An event is an action that a user or system performs such as a keypress, mouse click, etc.
+- HTTP methods:
+	- GET
+	- POST
+	- PUT
+	- DELETE
+	- PATCH
+	- HEAD
+	- OPTIONS
+	- TRACE
+- Safe is method that does not alter server state:
+	- GET, HEAD, OPTIONS, TRACE
+	- Not PUT, DELETE, POST, PATCH
+- Idempotent means multiple identical requests will have the same outcome:
+	- GET, HEAD, OPTIONS, TRACE, PUT, DELETE
+	- Not POST, PATCH
+- **Built in Hooks**
+	- useState: 
+		- Used to save data into state. State is an object which holds property values that belong to the component
+		- When state object changes, the component re-renders
+	- useContext:
+		- Receives data from parents that can be passed onto children without passing it as props
+	- useRef:
+		- Can hold any value that does not cause a re-render when you update the value. Usually used to hold a DOM node
+	- useEffect:
+		- Runs some additional code upon re-render or depending on what you have in the dependencies
+	- useMemo, useCallback:
+		- Prevents re-rendering through caching
+- Keys are special string attributes that identify which item in a list has been modified
+- Pure components are components that are memorized that can ignore certain re-render requests
+	- Will re-render only if one of the props has changed
+- Reconciliation is the process where the 
+- A React Component can go through four stages of its life as follows. 
+	- ****Initialization:**** This is the stage where the component is constructed with the given Props and default state. This is done in the constructor of a Component Class.
+	- ****Mounting:**** Mounting is the stage of rendering the JSX returned by the render method itself.
+	- ****Updating:**** Updating is the stage when the state of a component is updated and the application is repainted.
+	- ****Unmounting:**** As the name suggests Unmounting is the final step of the component lifecycle where the component is removed from the page.
+- **React Hook Form**
+	- Library that simplifies creating forms in React
+	- 

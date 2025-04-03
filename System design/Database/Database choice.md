@@ -1,0 +1,109 @@
+- For images + videos:
+	- Need to use blob storage (e.g. S3)
+	- Use CDN (content delivery network) to serve the content at different locations to lower latency
+- Use caching in order to reduce database queries made, and lower latency
+- For text searching, use ElasticSearch (search engine)
+- For metrics, use Time Series Database 
+	- For monitoring system, you would never do random updates. You would do sequential updates in append-only mode
+	- E.g. InfluxDB, openTSDB
+- For analytics, need a data warehouse --> db where you can dump all of your data and provide querying capabilities to serve lots of reports (offline reporting):
+	- E.g. Hadoop
+- Choosing a relational vs a non-relational database:
+	- If you have structured data (e.g. data you can easily model --> user info --> name, email, address, phone number, etc.), then a relational database
+		- Also require ACID compliance
+			- Atomicity
+			- Consistency
+			- Isolation
+			- Durability
+		- E.g. Payment system where transactions occur with ability to withdraw and deposit money, or Inventory management system
+	- If you do not have structured data, 
+		- And have a lot of data types (attributes) and are going to have many queries, use Document DB (e.g. MongoDB)
+		- If you have ever increasing data (e.g. like Uber) and finite number of queries, use Columnar DB (e.g. Cassandra, HBase)
+		- E.g. Catalogue system for E-commerce platform
+	- If you need none of these requirements (low scale system, small number of queries, very small number of attributes, small size of data set), then can use anything --> but normally would not get this situation
+- Situation where you need a combination of DB:
+	- E.g. E-commerce platform like Amazon
+		- Managing inventory - keeping track of quantity while many users want to buy the items --> we want to make sure we have ACID compliance
+			- Make sure only one of the users should be able to commit transactions while others cannot
+			- Prior to item being delivered
+		- Amazon is also an ever-increasing data --> new orders coming in and data cannot be purged
+			- Use Columnar DB to keep track of item after delivery
+	- E.g. Reporting system querying number of users who bought X over the past 5 days
+		- The item itself may have different qualtiites, or come from different companies so it would have a lot of itemIDs and many orders
+		- If you want to make a lot of queries based on different items, should use a Document DB 
+			- Store a subset of order information into MongoDB which says user ID had an order ID on some particular date which had these ten item ID
+			- This will return a list of order IDs
+			- Then you can take those order IDs and query on other systems 
+
+- Review: Indexes
+	- Database index is used for the purpose of speeding up reads conditioned on the value of a specific key. They also slow down database writes
+		- Use for situations where database reads > writes
+		- Two main types: 
+			- LSM Trees + SSTables:
+				- Writes first go to balanced binary search tree in memory
+				- Tree flushed to a sorted table on disk when it gets too big
+				- Can binary search SSTables for the value of a key
+				- Can merge SSTables together if there are too many (old values of keys will be discarded)
+				- Pros: fast writes to memory, Cons: may have to search many SSTables for value of key
+			- B-Trees:
+				- Binary tree using pointers on disk
+				- Writes iterate through the binary tree and either overwrite the existing key value or create a new page on disk and modify the parent pointer to the new page 
+				- Pros: faster reads, know exactly where key is located, Cons: slow writes to disk instead of memory
+- Review: Replication
+	- Replication is the process of having multiple copies of data in order to make sure that if a database goes down, the data is not lost
+	- Types:
+		- Single leader replication
+			- All writes go to one database, reads come from any database (master-slave)
+			- Pro: no write data conflicts, Cons: lower throughput
+		- Multi leader replication
+			- Writes can go to a small subset of leader databases, reads can come from any database
+			- Pro: higher write throughput, Cons: more likely to be write conflict
+		- Leaderless replication
+			- Writes go to all databases, reads come from all databases
+			- Pro: higher write throughput, Cons: more likely to be write conflict
+- SQL Databases:
+	- Relational/Normalized Data: changes to one table may require changes to others
+		- Harder to scale because if you have to write to multiple tables, it is expensive (two phase commit)
+	- Have ACID compliance
+		- Can be slower though because of locks
+		- But can guarantee that the data is consistent
+	- Typically use B-trees
+		- Better for reads than writes in theory
+	- Use SQL when correctness is more important than speed 
+		- E.g. Banking applications, job scheduling, Inventory management system
+- NoSQL Databases:
+	- MongoDB:
+		- Document data model: 
+			- Data is written in large nested documents, better data locality (can update all data at the same time) - but de-normalized
+			- E.g. Author document with Books document stored under the Author. As opposed to having two separate tables for Authors and Books in Relational Databases
+		- B-Trees and Transactions supported
+		- Rarely need to use it in an interview since nothing is "special" about it, but good if you want SQL like guarantees on data with more flexibility via the document model
+	- Apache Cassandra:
+		- Wide column data store - excel spreadsheet 
+			- Has a shard key and a sort key
+			- Allows for flexible schema, ease of partitioning
+		- Multileader/Leaderless replication (configurable)
+			- Faster writes, but data conflicts can occur
+		- Index based off of LSM tree and SSTables
+			- Faster writes but slower reads
+		- Use for applications with high write volume, and consistency is not as important
+			- All writes and reads go to the same shard (no transactions)
+			- E.g. Chat application -  sharding key (chat ID), sort key (messages sorted by timestamp)
+	- Apache HBase
+		- Wide column data store (similar to Cassandra but have differences that make it more performant)
+		- Built on top of the HDFS (Hadoop Distributed File System)
+		- Single Leader Replication - don't have to worry about write conflicts
+		- Uses a column oriented storage instead of rows
+			- Increases data locality if only looking through a column
+		- Use for applications that need fast column reads
+			- E.g. multiple thumbnails of a YouTube video, sensor readings
+- Timeseries Database:
+	- TimeScaleDB/Apache Druid:
+		- Use LSM trees for fast ingestion, but break table into many small indexes by both ingestion source and timestamp
+	-  Use for when you want to ingest data from many different sources but keep them in order relative to the timestamp
+		- E.g. sensor data, metrics, logs where you want to read by the ingestor and range of timestamp
+- Caching:
+	- Memcached and Redis:
+		- Key-value stores implemented in memory which uses a hashmap under the hood
+		- Use for when data needs to be written and retrieved extremely quickly, memory is expensive so good for small datasets
+			- E.g. Geospatial data for Lyft
