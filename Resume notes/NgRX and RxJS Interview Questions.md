@@ -1,0 +1,40 @@
+- **What is RxJS**
+	- Library for reactive programming - composing asynchronous and callback-based code in a functional, reactive style using observables
+	- 
+- **What are observables**
+	- Object similar to Promise that helps manage async code
+	- Are declarative which provide support for passing messages between publishers and subscribers in your application
+	- Used for event handling, asynchronous programming, and handling multiple values
+	- In this case, you define a function for publishing values, but it is not executed until a consumer subscribes to it. The subscribed consumer then receives notifications until the function completes, or until they unsubscribe.
+- **What is an observer**
+	- Is an interface for a consumer of push-based notifications delivered by an observable
+	- ![[Pasted image 20250407133506.png]]
+- **What is subscribing**
+	- An observable instance begins publishing values only when someone subscribes to it
+	- Receiving notifications from the observable
+- **Difference between Promise and Observable**
+	- Promise:
+		- Executes immediately upon creation
+		- Provides only one value
+		- Pushes errors to the child promises
+		- Uses only `.then()` clause
+	- Observable:
+		- Declarative: Computation does not start until subscription, so they can run whenever you need the result
+		- Provides multiple values over time
+		- Subscribe method is used for error handling
+		- Provides chaining and subscription to handle complex applications
+- **What is multicasting**
+	- The practice of broadcasting to a list of multiple subscribers in a single execution
+- **How do you perform error handling in observables**
+	- Can specify a second callback (*error callback*) on the observer instead of relying on `try/catch` which is ineffective in asynchronous environment
+- **What is the shorthand notation for subscribe method?**
+	- Accepts three callback function definitions for `next`, `error`, and `complete` handlers
+- **Utility functions provided by RxJS**
+	- Converting existing code for async operations into observables
+	- Iterating through the values in a stream
+	- Mapping values to different types
+	- Filtering streams
+	- Composing multiple streams
+- **What happens if you do not supply handler for the observer**
+	- If yo do not supply a handler for a notification type, the observer just ignores notifications of that type
+- 

@@ -1,0 +1,231 @@
+- **Lifecycle Hooks**
+	- `ngOnChanges()`
+		- Respond when Angular sets or resets data-bound input properties
+		- Called before `ngOnInit()` (if the component has bound inputs) and whenever one or more data-bound input properties change
+	- `ngDoCheck()`
+		- Detect and act upon changes that Angular can't or won't detect on its own
+		- Called immediately after `ngOnChanges()` on every change detection run, and immediately after `ngOnInit()` on the first run
+	- `ngOnInit()`
+		- Initialize the directive or component after Angular first displays the data-bound properties and sets the directive or components input properties
+		- Use to fetch the initial data
+		- Use to initialize directive based on the data-bound properties
+		- Called once, after the first `ngOnChanges()`. 
+	- `ngAfterContentInit()`
+		- Respond after Angular projects eternal content into the components view, or into the view that a directive is in
+		- Called *once* after the first `ngDoCheck()`
+	- `ngAfterContentChecked()`
+		- Respond after Angular checks the content project into the directive or component
+		- Called after `ngAfterContentInit()` and every subsequent `ngDoCheck()`
+	- `ngAfterViewInit()`
+		- Respond after Angular initializes the component's views and child views, or the view that contains the directive
+		- Called *once* after the first `ngAfterContentChecked()`
+	- `ngAfterViewChecked()`
+		- Respond after Angular checks the component view's and child views, or the view that contains the directive
+		- Called after the `ngAfterViewInit()` and every subsequent `ngAfterContentChecked()`
+	- `ngOnDestroy()`
+		- Cleanup just before Angular destroys the directive or component
+		- Unsubscribe observables and detach event handlers to avoid memory leaks
+		- Called immediately before Angular destroys the directive or component
+	- ![[Pasted image 20250407100259.png]]
+- **View Encapsulation**
+	- Components styles can be encapsulated within the component's host element so that they don't affect the rest of the application
+	- Component decorator provides the `encapsulation` option which can be used to control how encapsulation is applied on a *per component* basis
+	- Three modes:
+		- `ViewEncapsulation.ShadowDom`
+			- Uses Shadow DOM API to enclose the components view inside a ShadowRoot
+			- Used as the components host element, and apply the provided styles in an isolated manner
+		- `ViewEncapsulated.Emulated`
+			- Modifies the components CSS selectors so that they are only applied to the components view and do not affect other elements in the application, *emulating* Shadow DOM behaviour 
+		- `ViewEncapsulation.None`
+			- Angular does not apply any sort of view encapsulation meaning that any styles specified for the component are actually globally applied and can affect any HTML element present within the application
+			- Same as including the styles into the HTML itself
+- **Change Detection**
+	- Change detection is about how Angular detects changes in the data (model) and then renders them into view
+	- Key technique of change detection is to execute checks against two states: the current state and the new state
+	- If child component emits a change detection event, the change detection works from the top to the bottom of the component tree (unidirectional data flow)
+	- Change detection strategies:
+		- Default
+			- `ChangeDetectionStrategy.default` 
+			- No assumption on the components dependency and check every component from the component tree from top to bottom every time an event triggers change detection on browser events, timers, XHRs, and promises
+			- Can have a negative impact on performance for large application that has many components
+		- OnPush
+			- `ChangeDetectionStrategy.OnPush`
+			- Angular skips checks for the components that use OnPush strategy and all of its child components
+			- Angular will only update the component if one or more of these conditions happens:
+				- The input reference changed (i.e. `@Input`)
+				- An event from the component or one of its children
+					- `setTimeout`
+					- `setInterval`
+					- Promises
+					- Any RxJS observable subscription
+				- Async pipe linked to the template emits a new value
+					- Internally calls `markForCheck` each time a new value is emitted
+				- Manually triggered the change detection
+- **What is data binding**
+	- A way to bind a an element to a value, or giving the element the ability to propagate changes back through this binding
+	- ![[Pasted image 20250407104414.png]]
+	- Angular uses two-way data binding which does both of the above point simultaneously
+		- Syntax is a combination of square brackets and parentheses `[()]`. This combines the syntax from property binding `[]`, and the syntax from event binding `()`
+		- Commonly used to keep component data in sync with a form control as a user interacts with the control
+			- E.g. ngModel directive with the two-way binding syntax allows you to update the value of whatever variable you set to the directive
+	- Property binding
+		- Passing a value from the parent component to the child component
+		- Receive it in the child component by using `@Input` decorator
+	- Event Binding
+		- Catching the child's event/method from the parent component
+		- Receive it in the child component by using `@Output` decorator
+	- Two-way data binding is a combination of the previous two
+- **What is interpolation**
+	- Embedding expressions into marked up text
+	- A way to bind data from the component class to the template view
+	- Uses double curly braces `{{ }}` as delimiters
+	- E.g. Allows you to incorporate strings into the text between HTML element tags 
+- **AngularJS vs Angular**
+	- AngularJS:
+		- Uses JavaScript
+		- Supports MVC architecture
+		- No mobile support
+		- Doesn't support dependency injection
+	- Angular
+		- Uses TypeScript
+		- Uses components and directives
+		- Has mobile support
+		- Supports dependency injection
+- **Dependency Injection**
+	- A technique in which a class receives its dependencies from external sources rather than creating them itself
+	- In Angular, need to add `@Injectable({ providedIn: 'root' })` decorator to service class. Then the service can be added into the constructor of the class where you plan to use the service
+- **Decorators in Angular**
+	- What is a decorator?
+		- Angular decorator is a function, using which we attach metadata to a class declaration, method, accessor, property, or parameter
+	- Class Decorators
+		- `@Component` treats the class as a component class
+			- Provides data about the template, styles, change detection, providers, selector
+		- `@NgModule` defines the class as an Angular Module 
+			- Can add data about providers, declarations, imports, exports, bootstrap, schemas
+		- `@Injectable` defines the class as one that can be injected into another class from the constructor arguments via the Angular dependency injection system
+		- `@Directive` marks the class as an Angular directive
+			- Helps us to change the appearance, behaviour, or layout of a DOM element
+		- `@Pipe` marks the class as an Angular pipe
+			- Takes data as input and formats or transforms the data to display in the template
+			- Must implement `PipeTransform` class and uses the `transform` method to transform the data
+	- Property Decorators
+		- `@Input` marks the property as the input property
+			- It can receive data from the parent component
+		- `@Output` decorates the property as the output property
+			- We initialize it as an `EventEmitter`
+			- The child component raises the event and passes the data as the argument to the event
+			- The parent component listens to events using event binding and reads the data
+		- `@ContentChild` & `@ContentChildren` used to query and get the reference of the DOM elements that exist between the parents HTML tags
+			- Can only be used after lifecycle hook: `AfterContentInit`
+		- `@ViewChild` & `@ViewChildren` used to query and get the reference of the DOM element in the Component
+			- `@ViewChild` returns the first matching element 
+			- `@ViewChildren` returns all the matching elements as `QueryList` of items
+			- Can only use after lifecycle hook: `AfterViewInit`
+		- `@HostBinding` allows us to bind a property of the host element
+			- E.g. `@HostBinding('innerHTML') jsonLD: SafeHtml;`
+	- Method Decorators
+		- `@HostListener` listens to host events
+			- The host is an element which we attach our component or directive
+			- Using `@HostListener`, we can respond whenever the user performs some action on the host element
+			- E.g. `@HostListener('click', ['$event'])` on top of a method
+	- Parameter Decorators
+		- `@Inject` is a constructor parameter decorator, which tells Angular to inject the parameter with the dependency provided in the given token
+				- A way of manually injecting the dependency
+				- `@Inject(PLATFORM_ID) private platformId: Object`
+		- `@Host` tells the DI framework to resolve the dependency in the view by checking injectors of child elements, and stop when reaching the host element of the current component
+		- `@Self` instructs Angular to look for the dependency only in the local injector
+			- Local injector is the injector that is part of the current component or directive
+		- `@SkipSelf` instructs Angular to look for the dependency in the Parent injector and upwards
+		- `@Optional` marks dependency as optional
+			- If the dependency is not found, then it returns `null` instead of throwing an error
+- **Directives in Angular**
+	- Angular directives helps us to manipulate the DOM - You can change the appearance, behaviour, or layout of a DOM element using directives
+	- Component Directives
+		- Components are directives with templates
+	- Structural Directives
+		- Can change the DOM layout by adding and removing DOM elements
+		- All structural directives are preceded by an Asterix `*` symbol 
+		- E.g. `*ngFor`, `*ngIf`, `*ngSwitch`
+	- Attribute Directives (also known as style directive)
+		- Can change the appearance or behaviour of an element
+		- E.g. `ngClass`, `ngStyle`, `ngModel`
+- **Templates in Angular**
+	- They are HTML that contains Angular-specific elements and attributes
+	- Provide a dynamic view to the user
+- **Modules in Angular**
+	- Classes that create logical boundaries in the application
+	- Separates the functionality of the application
+	- Includes `imports`, `declarations`, `bootstrap`, `providers`
+		- `imports`: used to import other dependent modules
+		- `declarations`: define components in the respective module
+		- `bootstrap`: tells Angular which components to bootstrap in the application
+		- `providers`: Configures a set of injectable objects that are available in the injector of this module
+- **What is a bootstrapping module**
+	- The root module that you bootstrap to launch the application
+	- Commonly known as `AppModule`
+- **Constructor vs ngOnInit**
+	- Constructor is the default method of the class that is executed when the class is instantiated and ensures proper initialization of the fields in the class and its subclasses
+		- Analyzes the constructor parameters and when it creates a new instance by calling the constructor, it tries to find providers that match the types of the constructor parameters, resolves them, and passes them to the constructor
+	- ngOnInit is a lifecycle hook called by Angular to indicate Angular is done creating the component
+		- Mostly used for initialization/declaration 
+- **What is a service**
+	- A class with a `@Injectable` decorator (and potentially `providedIn` option) that is used when common functionality needs to be provided to various modules (i.e. abstracting away functionality to a class to be used in different places)
+- **What is a directive**
+	- TODO
+- **What is an async pipe**
+	- TODO
+- **What are template expressions**
+	- TODO
+- **What are template statements**
+	- TODO
+- **Pure Pipe vs Impure Pipe**
+	- Pure pipe is only called when Angular detects a change in the value or the parameters passed to the pipe
+	- Impure pipe is called for every change detection cycle no matter the value or parameters change
+		- Worse for performance
+- **TrackByFunction**
+	- A function optionally passed into the `ngFor` directive to customize how items are uniquely identified in an iterable
+	- Benefits:
+		- Improves performance by reducing unnecessary DOM manipulation and improving rendering speed
+		- Reduced resource consumption because Angular updates only the necessary parts of the DOM and the application will consume fewer resources
+- **What is HttpClient and its benefits**
+	- Angular provided way of making requests 
+	- Benefits:
+		- Contains testability features
+		- Provides typed request and response objects
+		- Intercept request and response
+		- Supports Observable APIs
+		- Supports streamlined error handling
+	- How to use?
+		- Import HttpClientModule
+		- Inject HttpClient into the constructor of the service and define method for making http request
+		- Then call method from component and subscribe to the result of the service method to get data
+	- How to get full response?
+		- Have to add option `{ observe: 'response' }` to the http GET call
+		- Makes the observable return `HttpResponse` instead of just the `JSON` data
+	- How to do error handling?
+		- HttpClient will return an error response upon some error from the HTTP request
+		- You can handle this by using a second callback to the `susbcribe()` method
+- **How does change detection work in Angular**
+	- Angular overrides low level browser APIs, such as `addEventListener` and adds functionality in order to run change detection and update the UI
+		- Overrides: 
+			- All browser events (click, mouseover, keyup, etc.)
+			- `setTimeout` and `setInterval`
+			- Ajax HTTP requests
+			- Other browser APIs, such as Websockets
+		- If an asynchronous browser API is not supported, then change detection will not be triggered, such as IndexedDB callbacks
+	- Low-level patching work is done by Zone.js file
+		- Zone is an execution context that survives multiple JavaScript VM execution turns
+	- Change detection works by checking if the value of the template expressions have changed
+	- Angular does not do deep object comparison to detect changes, it only takes into account properties used by the template
+- **AOT compilation vs JIT compilation**
+	- AOT compiler converts Angular HTML and TypeScript code into JavaScript code during the build phase (i.e. before the browser downloads and runs the code)
+		- Advantages:
+			- Faster rendering
+			- Fewer asynchronous requests
+			- Smaller Angular Framework download size
+			- Quicker detection of template errors
+			- Better Security
+	- JIT compilation
+		- Compiling computer code to machine code during execution or run time
+		- Dynamic compilation
+		- Is default

@@ -27,8 +27,50 @@ Non-Linear:
 	- Graphs
 		- Have cycles
 		- Need a visited set to keep track of nodes you've already visited
-- Breadth-First Search
+- Breadth-First Search (BFS):
 	- Use to explore nodes in a graph or tree level-by-level
 		- Starts at a node (root) then moves to immediate neighbours before moving onto their neighbours
 	- Uses a queue:
 		- First in, First out (FIFO)
+	- Best for shortest path
+	- E.g. Binary Tree Level Order Traversal
+- Depth-First Search (DFS):
+	- Use to explore nodes in a graph as deep as possible into the tree before exploring the next path
+	- Uses a stack:
+		- Last in, First out (LIFO)
+		- Usually the call stack (recursive), or instantiated (iterative)
+	- Best for exploring all paths
+		- Not suited for finding shortest path because it doesn't guarantee finding the closet solution first
+	- E.g. Number of Islands
+- Backtracking:
+	- Extension of DFS
+	- Have to built the solution tree yourself
+		- Can be generated dynamically as you make decisions
+		- E.g. including something or not including something (combinations, subsets, permutations)
+		- Adding the next value to the potential solution, calling DFS with the next index, then popping that same value from the potential solution
+	- E.g. Letter combinations of a phone number 
+	- ![[Pasted image 20250403171547.png]]
+	- Time complexity O(4^n) --> the digit is how many branches we can go down - usually 2 (like if we include something or not include something)
+- Priority Queue (Heap):
+	- When you see a question that says "Top K", "K largest", or "K smallest", use a priority queue
+	- Special type of tree where the smallest value is at the top and each parent is smaller than its children (i.e. Min Heap), or the largest value is at the top and each parent is larger than its children (i.e. Max Heap)
+	- Use a Min Heap to find the K largest values, and a Max Heap to find the K smallest values
+	- E.g. Find 3 smallest values in a list
+		- Instantiate a Max Heap with a size of 3 items
+		- Add 3 items to Max Heap
+		- Next item, check if next number is smaller than previous largest value 
+		- If it is, remove value at root, then insert new value
+	- Use when you need to know where the largest or smallest value is
+	- Time Complexity - to insert or remove O(log n)
+- Dynamic Programming:
+	- Involves optimizing a solution by breaking it down into overlapping subproblems, storing the result of the subproblems and reusing them to avoid redundant computations
+	- Top-Down:
+		- Start from the main problem and recursively solve it's subproblems, storing the result of the subproblem to avoid solving the same subproblem multiple times 
+		- Backtracking + Memoization:
+			- Memoization is saving the previous function call result in a dictionary and reading from it when we do the exact same call again
+	- Bottom-Up:
+		- Solve the smallest subproblem first and use their solution to build up to the solution for the larger problem
+		- Instead of using recursion, it involves filling in a table where each entry represents the solution to a smaller subproblem 
+		- Start with base cases and iteratively compute the solutions to progressively larger subproblems until you reach the final solution 
+		- Avoids the overhead of recursion and memoization often resulting in more efficient time and space usage
+		- Commonly used when you know the dependencies between subproblems and can structure the solution iteratively 

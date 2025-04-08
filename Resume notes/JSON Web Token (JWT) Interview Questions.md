@@ -1,0 +1,49 @@
+- **What is a JSON Web Token**
+	- Is an open standard that defines a compact and self-contained way for securely transmitting information between parties as a JSON object
+	- Can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA
+- **When should you use JSON Web Tokens?**
+	- Authorization:
+		- Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token
+		- Single Sign On is a feature that widely uses JWT 
+	- Information Exchange:
+		- JWT are a good way of securely transmitting information between parties
+		- Because JWTs can be signed - for example, using public/private key pairs - you can be sure the senders are who they say they are
+			- Signature is calculated using the header and the payload so you can also verify the content hasn't been tampered with
+- **JWT structure**
+	- Three parts separated by dots `.`
+		- Header
+			- Contains two parts: the type of the token which is JWT, and the signing algorithm being used, such as HMAC SHA256, or RSA
+			- Then this JSON is Base64Url encoded to form the first part of the JWT
+			- ![[Pasted image 20250407184243.png]]
+		- Payload
+			- Contains the claims
+				- Claims are statements about an entity (typically, the user) and additional data
+				- Three types:
+					- Registered
+						- Set of predefined claims which are not mandatory but are recommended, to provide a set of useful, interoperable claims
+						- E.g. `iss` (issuer), `exp` (expiration time), `sub` (subject), `aud` (audience)
+					- Public
+						- Can be defined at will by those using JWTs
+						- To avoid collisions, they should be defined in the *IANA JSON Web Token Registry* or be defined as a URI that contains a collision resistant namespace
+					- Private
+						- Custom claims created to share information between parties that agree on using them and are neither *registered* or *public* claims
+			- Payload is Base64Url encoded to form the second part of the JWT
+		- Signature
+			- To create the signature part, you have to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that
+			- E.g. if you want to use HMAC SHA256 algorithm, the signature will be created in the following way
+			- `HMACSHA256( base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)`
+			- Used to verify the message wasn't changed along the way, and, in the case of tokens signed with a private key, it can also verify that the sender of the JWT is who it says it is
+	- E.g. `xxxxx.yyyyy.zzzzz`
+- **How do JSON Web Tokens work**
+	- When the user successfully logs in using their credentials, a JWT will be returned
+	- Whenever the user wants to access a protected route or resource, the user agent should send the JWT, typically in the `Authorization` header using the `Bearer` schema
+		- `Authorization: Bearer <token>`
+	- Sent this way, Cross-Original Resource Sharing (CORS) won't be an issue since it doesn't use cookies
+	- Information contained within the token can be visible to users or other parties (even though they are unable to change it)
+		- Do not put secret information within the token
+- **Why should we use JSON Web Tokens**
+	- Less verbose than XML
+	- When encoded, size is also smaller (more compact than SAML)
+	- Can use public/private key pair in the form of a X.509 certificate for signing
+	- Easier to work with JWT because JSON parsers are common in most programming languages (JSON can map directly to objects)
+	- 

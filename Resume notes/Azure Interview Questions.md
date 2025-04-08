@@ -1,0 +1,22 @@
+- **AZURE APP SERVICES**
+- **AZURE FUNCTION APPS**
+- **AZURE EVENT HUBS**
+- **AZURE SERVICE BUS**
+- **AZURE QUEUES**
+- **AZURE DEVOPS**
+	- **AZURE BOARDS**
+		- Equivalent to JIRA
+		- For Agile tools to support planning and tracking work
+	- **AZURE REPOS**
+		- Equivalent to GitHub
+		- Provides Git Respositories
+	- **AZURE PIPELINES**
+		- Equivalent to Jenkins
+		- CI/CD
+		- Provides build and release services to support CI/CD of your applications
+	- **AZURE TEST PLANS**
+		- Provides several tools to test your application
+	- **AZURE ARTIFACTS**
+		- Allows teams to share packages such as Maven, npm, NuGet, and more from public and private sources and integrate package sharing into your pipelines
+	- https://learn.microsoft.com/en-us/azure/devops/user-guide/what-is-azure-devops?view=azure-devops
+- 

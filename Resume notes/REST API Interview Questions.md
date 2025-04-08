@@ -1,0 +1,24 @@
+- **What is REST**
+	- Representational State Transfer: most commonly used architectural style for building web services and APIs
+	- Resources are identified by URIs (Uniform Resource Identifiers), and operations are performed on those resources using standard HTTP methods
+	- State of a resource is represented in JSON or XML which is transferred between the client and server in HTTP request and response bodies
+- **What is HTTP**
+	- Hypertext Transfer Protocol
+	- Is the dominant protocol for transmitting data between clients and servers on the internet
+	- Operates on a stateless request-response model, in which the client sends a request to the server and the server responds accordingly - without any knowledge of client's previous requests
+- **What is SOAP**
+	- An XML-based messaging protocl that is used to transfer data between distributed applications and systems
+	- Follows a very strict structure
+- **What are HTTP headers? And which ones are most commonly used?**
+	- Metadata that is included in an API request or response
+	- Examples: 
+		- Accept: defines the media types the client is able to accept from the server
+		- Authorization: which is used to send client credentials to the server when client is attempting to access a protected resource
+		- Content-type: defines the media type in the request body
+		- Cache-control: defines how the response should be cached
+		- Set-cookie: instructs the client to store a cookie with the specified attributes
+- **What is a resource in a RESTful context**
+	- A REST resource is any object or group of objects that can be accessed through a dedicated API endpoint
+		- For example, a simple blog API may have an `author` resource that can be accessed via `/authors/:id` endpoint
+- **Defining features of REST APIs**
+	- 

@@ -1,0 +1,10 @@
+- **DEPENDENCY INJECTION**
+- **SPRING MVC**
+- **JPA/HIBERNATE**
+- **What is a DTO**
+- **RestTemplate:**
+	- TODO: look into how it works on CCMN
+	- Provided by Spring Framework that simplies the process of making HTTP requests and handling responses
+- **Authentication vs Authorization:**
+	- Authentication verifies who a user is --> i.e. input a username and password and verifying it is correct
+	- Authorization determines what they are able to access after successful authentication --> i.e. does the user have permission to view a certain page

@@ -1,0 +1,62 @@
+- **Static keyword**
+	- Property or method belongs to the class itself
+	- Does not need to be instantiated to use the property or method
+	- Only one instance of that property or method, cannot have multiple instances
+	- Cannot override a static method in Java
+- **Class vs Object**
+	- Class is a user-defined data type that can be used to create an object. It includes properties and methods. It is essentially a blueprint for creation of an object
+	- An Object is an instance of the class 
+- **Interface vs Abstract class**
+	- Abstract classes is a class that can contain both abstract methods (methods without implementation) and concrete methods 
+		- Can only extend from one abstract class
+	- Interface has no concrete methods, only abstract methods 
+		- Class implement from multiple interfaces
+- **Pass by value vs Pass by reference**
+	- Pass by value is only passing in the value itself and any modifications made to the value inside of the method is not changed for outside the method
+	- Pass by reference is passing the reference for the variable itself, so changes made to the variable are updated for outside the method as well
+	- JAVA IS PASS BY VALUE
+- **Difference between == and .equals**
+	- == compares the references 
+	- equals() will check the contents of the object
+- **Hashcode and equals**
+	- equals() is used to compare two objects
+	- hashCode() returns an integer that represents the current instance of the class
+	- I believe you can use the hashcode generated to determine whether two objects are equal
+- **What is Serializable**
+	- Extending Serializable allows the object to be converted into a byte stream (serialization) which then can be converted back into an object (deserialization)
+	- SerialVersionUID - a class version that is used to verify that the current version of the class is compatible during deserialization (can be backwards compatible)
+- **Local, instance, and class variables**
+	- Local variable: declared within a code block such as a method 
+	- Instance variables: declared inside a class but outside of a method
+	- Class variables: declared with the static keyword in a class, but outside a method, constructor or code block
+- **Synchronized keyword**
+	- 
+- **Autoboxing vs Unboxing**
+	- 
+- **Transient and Volatile**
+	- 
+- **Characteristics of OO programming languages**
+	- Abstraction
+		- Hiding away information, and only exposing what is necessary
+		- E.g. a user doesn't need to know about how a car runs, they just need to be able to drive the car
+	- Encapsulation
+		- Grouping functions and data into a single entity
+		- Accessing the data or methods is determined by access controls (i.e. private, protected, public keywords)
+	- Inheritance 
+		- Creating a new class from an existing class
+		- Subclass is created from Superclass (parent-child relationship) where subclass inherits can inherit the properties and methods from the superclass depending on the appropriate access controls (i.e. protected and public, but not private)
+	- Polymorphism
+		- Multiple classes are able to use the same method name
+		- Overloading vs Overriding:
+			- Overloading is defining multiple methods with the same name but different parameters within the same class
+			- Overriding is when a subclass has it's own implementation and overrides the implementation by the superclass
+- **Memory leaks in Java**
+	- Memory leak is when an object or objects is no longer used but cannot be removed by the garbage collector. This can lead to performance degradation, running out of memory
+	- E.g. not closing a connection to a database, or not closing an input stream
+		- Reference to the objects will still exist preventing garbage collection
+- **JUNIT**
+- **JAVA WEB SERVICES**
+- **MAVEN**
+	- Build tool: tool to compile, test, and package your application (i.e. jar, war, ear)
+	- Provides a default project structure, and pom.xml (**Project Object Model** config file which includes information about the project (including groupId, artifactId), versioning, dependencies, plugins)
+- **GRADLE**

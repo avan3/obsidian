@@ -1,0 +1,94 @@
+- **What is OAuth 2.0**
+	- Standard for delegating access
+	- Used to grant third-party applications limited access to their resources without exposing their credentials
+	- Important terms:
+		- Resource owner: the user who owns the data
+			- Entity capable of granting access to the protected resource
+			- Interacts with the authorization server to approve or deny access requests
+		- Client: the application requesting access to the resource
+		- Resource server: the server hosting the protected resources
+		- Authorization server: the server that authenticates the resource owner and issues access tokens
+		- Access token: a token that grants the client access to the resource server
+- **Main components of OAuth 2.0 Framework**
+	- Client, resource owner, authorization server, resource server
+	- Client requests access, the resource owner grants it, the authorization server issues tokens, and the resource server validates and serves the protected resources
+- **OAuth Flow**
+	- Authorization request: the client requests authorization from the resource owner
+	- Authorization grant: the resource owner grants permission
+	- Access Token request: the client exchanges the authorization grant for an access token from the authorization server
+	- Access Token response: the authorization server issues an access token
+	- Resource Request: the client uses the access token to access protected resources from the resource server
+	- Resource Response: the resource server returns the requested data to the client
+- **OAuth Grant Types**
+	- Authorization Code Grant
+		- Used primarily for server-side applications
+		- Involves exchanging an authorization code for an access token
+		- Flow:
+			- User authenticates and grants permission
+			- Authorization code is sent to client
+			- Client exchanges the code for an access token
+	- Implicit Grant
+		- Used for client-side applications like single-page apps
+		- Access token is returned directly without an authorization code (same process as Authorization Code Grant except giving an access token instead of authorization code)
+		- Flow:
+			- User authenticates and grants permission
+			- Access token is sent directly to the client
+	- Resource Owner Password Credentials Grant
+		- Used when the user trust the client application with their credentials
+		- The client uses the username and password to obtain an access token
+		- Flow:
+			- User provides credentials to the client
+			- Client requests access token using credentials
+			- Authorization server issues access token
+	- Client Credentials Grant
+		- Used for machine-to-machine authentication where no user is involved
+		- The client authenticates itself to obtain an access token
+		- Flow:
+			- Client authenticates with the authorization server
+			- Authorization server issues access token
+		- Uses a client ID and client secret
+			- Client ID is a public identifier for the application
+			- Client Secret is a confidential key used to authenticate the client
+- **Explain the concept of scopes in OAuth**
+	- Scopes are permissions that limit access to a user's resources
+	- They are specified during the authorization request
+	- Authorization server issues tokens with the requested scopes
+- **How do refresh tokens work in OAuth 2.0**
+	- Refresh tokens are used to obtain new access tokens without requiring user re-authentication
+	- They are issued by the authorization server along with the access token to help maintain continuous access to resources by allowing the client to request new access tokens when the current ones expire
+- **What is the PKCE extension in OAuth 2.0**
+	- An extension that enhances security for public clients by preventing authorization code interception attacks
+	- Involves generating a code verifier and a code challenge during the authorization request, ensuring the code challenge matches the code verifier during token exchange
+- **What is the purpose of the redirect URI in the OAuth flow**
+	- Redirect URI is used to specify where the authorization server sends the user after granting or denying access
+	- Ensures the response is sent to the correct client endpoint, preventing open redirect attacks and unauthorized access
+- **Explain the concept of state parameter in OAuth**
+	- State parameter is used to maintain state between the request and callback, helping to prevent CSRF attacks by including a unique value in the request
+	- The authorization server returns the state parameter unchanged, allowing the client to verify the response 
+- **How to implement logout functionality**
+	- Invalidate the access and refresh tokens on the server
+	- Redirect the user to the logout endpoint of the authorization endpoint
+	- Clear any client-side session data to ensure the user is fully logged out
+- **Common Authentication methods**
+	- Basic authentication: using username and password (encoded in base64)
+		- Not secure unless used over HTTPS
+	- Token-based authentication: using tokens (like JWT) to authenticate users
+		- Advantages:
+			- Stateless
+			- Scalable
+			- Decoupled from server sessions
+	- Multi-factor Authentication: requires two or more verification methods. 
+		- Something you know (password), something you have (token), something you are (biometrics)
+- **Best Practices/Security Considerations for OAuth**
+	- Use HTTPS everywhere: protects data in transit
+	- Implement proper scopes: define and enforce scopes to limit the access granted to clients, adhering to the principle of least privilege
+	- Validate Tokens: ensure that access tokens are validated properly by checking signatures, expiration times, and scopes
+	- Revoke tokens when necessary: provide mechanisms to revoke access and refresh tokens in case of compromise or when access is no longer needed
+		- You need to make a request to the authorization server's revocation endpoint, including the token to be revoked and the client credentials
+		- Upon successful revocation, the token is invalidated and can no longer be used to access resources
+	- Follow Security Guidelines: adhere to security best practices and guidelines provided by OAuth and OpenID connect specifications
+- **Pitfalls when implementing OAuth**
+	- Failing to validate redirect URIs, which can lead to open redirect attacks
+	- Not securely storing client secrets and access tokens, resulting in unauthorized access
+	- Neglecting to use HTTPS can expose data to eavesdropping and compromised security
+- 

@@ -1,0 +1,72 @@
+- **var, let, const**
+	- Difference is in scope, use, and hoisting
+	- var: 
+		- Scope:
+			- If declared outside a function, it has global scope
+			- If declared inside a function, it has function scope
+		- Can be declared and updated
+			- i.e. two var with same variable name is valid
+		- Hoisting:
+			- var variables are hoisted to the top of their scope and initialized with a value of undefined
+	- let:
+		- Scope: 
+			- let variable is only available for use within the coed block where it is declared (within "{ }". --> even includes if statements)
+		- Can be updated but not re-declared
+		- Hoisting:
+			- let variables are hoisted to the top of their scope, but not initialized with undefined
+	- const:
+		- Scope:
+			- const variable only accessed within the block they were reclared
+		- Cannot be updated or re-declared
+			- But does not apply to objects since the const only applies to the reference, not the properties inside the object
+		- Hoisting:
+			- Similar to let, const declarations are hoisted to the top but not initialized
+	- "as const": used to make sure that the properties inside an object cannot be updated
+- **JavaScript Data types**
+	- String, number, Bigint, Boolean, Undefined, Null, Symbol, Object
+- **JavaScript vs TypeScript**
+	- TypeScript is a superset of JavaScript that includes static typing (allows developers to specify variable types which can catch errors at compile time rather than runtime)
+	- TypeScript allows developers to create user-defined types via the Type keyword
+	- Types vs Interfaces:
+		- Types specify an alias for an existing type
+		- Interface defines a contrac that an object must adhere to
+		- Types can be aliases for primitive types
+		- Types can include union types which can be helpful for defining the possible values a certain variable must include
+			- E.g. `type Transport = 'Bus' | 'Car' | 'Bike' | 'Walk';`
+		- Interfaces have declaration merging (but not Types). If you define the interface with the same variable name twice, the properties will be merged together by the TypeScript compiler
+		- ![[Pasted image 20250406124850.png]]
+		- Extending interfaces uses the `extends` keyword, while types need to use the intersection operator (i.e. `&`)
+- **Arrow functions vs regular functions**
+	- Regular functions have a local variable `arguments` while arrow functions do not --> i.e. if no function parameters are specified, in regular function, you can still access the arguments passed into the function
+	- Arrow functions do not create their own `this` binding
+		- `this` for arrow functions points to the parent object 
+		- So if you have a nested function where the inner function is an arrow function, then `this` points to the object where the arrow function was called
+		- ![[Pasted image 20250406125926.png]]
+	- Arrow functions cannot be used as constructors
+	- Arrow functions cannot be declared the same way regular functions are
+		- Regular: `function printHello() {}`, vs
+		- Arrow: `const printHello = () => {}`
+	- Arrow functions cannot be accessed before initialization
+		- All functions are hoisted, but **only declared functions can be accessed before initialization (see point above)**
+- **JavaScript type coercion**
+	- Automatic or implicit conversion of values from one data type to another
+	- E.g. `let sum = "5" + 9 --> "59"`
+- **Iterators**
+	- reduce()
+	- forEach()
+	- filter()
+	- map()
+- **Promises vs Async/Await**
+	- Promises are an object that eventually leads to an asynchronous operations completion or failure
+		- Three states: Pending, Fulfilled, Rejected
+		- Uses `.then()` to retrieve result
+	- Async/Await is syntactic sugar on top of promises
+		- Provides a more concise way to write asynchronous code
+		- Async is used to declare an asynchronous function
+		- Await keyword is used to wait for a promise to be resolved before continuing with the execution of the function
+	- Difference between the two is the execution context
+		- When promises are created, the code after the promise creation continues to execute synchronously. The attached callback function is added to a queue and is processed after the current task has been completed but before the next task is processed from the task queue
+		- Await keyword causes JavaScript engine to pause execution of the async function until the Promise is resolved or rejected
+			- Although the async function waits for the Promise to resolve, it does not block the call stack, and any other synchronous code can be executed
+			- Once the Promise is resolved, the execution of the async function resumes, and the result of the Promise is returned
+- 
