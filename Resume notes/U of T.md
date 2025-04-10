@@ -13,6 +13,7 @@
 		- *Can talk about your experience with updating from AngularJS here*
 	- What is the makeup of the current team? How does your team operate on a day-to-day-basis
 	- What other projects are there lined up additionally to this current one? 
+	- What would members of your team say about your management style?
 - **Why are you interested in this position**
 	- I believe when you work in the tech field, you have to learn and continuously grow. And I am interested in this position because I have done the update from AngularJS to a higher version of Angular before and I know I would be able to contribute value to the project while being good way for me to do learn and grow
 	- I am also interested in the position because I went to U of T for my degree, and I am interested in the opportunity to give back to the university that I went to

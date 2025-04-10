@@ -2,13 +2,24 @@
 	- Representational State Transfer: most commonly used architectural style for building web services and APIs
 	- Resources are identified by URIs (Uniform Resource Identifiers), and operations are performed on those resources using standard HTTP methods
 	- State of a resource is represented in JSON or XML which is transferred between the client and server in HTTP request and response bodies
+- **Features of RESTful Web Services**
+	- Based on the client-server model
+	- Uses HTTP Protocol 
+	- Medium of communication between client and server is called "Messaging"
+	- Resources are accessible tot he server by means of URIs
+	- Follows the statelessness concept
+	- Can use caching to minimize server calls for the same type of repeated resources
 - **What is HTTP**
 	- Hypertext Transfer Protocol
 	- Is the dominant protocol for transmitting data between clients and servers on the internet
 	- Operates on a stateless request-response model, in which the client sends a request to the server and the server responds accordingly - without any knowledge of client's previous requests
 - **What is SOAP**
-	- An XML-based messaging protocl that is used to transfer data between distributed applications and systems
+	- An XML-based messaging protocol that is used to transfer data between distributed applications and systems
 	- Follows a very strict structure
+- **What is URI**
+	- Uniform resource identifier
+	- Full form of URI which is used for identifying each resource of the REST architecture
+	- Format: `<protocol>://<service-name>/<ResourceType>/<ResourceID>`
 - **What are HTTP headers? And which ones are most commonly used?**
 	- Metadata that is included in an API request or response
 	- Examples: 
@@ -21,4 +32,92 @@
 	- A REST resource is any object or group of objects that can be accessed through a dedicated API endpoint
 		- For example, a simple blog API may have an `author` resource that can be accessed via `/authors/:id` endpoint
 - **Defining features of REST APIs**
-	- 
+	- Statelessness - every request from the client includes all necessary information, and the server doesn't store any client-specific data
+		- Simplifies server design, and promotes horizontal scalability
+	- Separation of concerns between the client and server
+		- Client is responsible for the UI/UX
+		- Server handles request processing resource management
+		- Clear delineation ensures modularity and enables each component to evolve independently
+	- Uniform interface
+		- Endpoints are accessed with an established set of HTTP methods
+		- Makes it easier to onboard new consumers
+- **Core components of HTTP request**
+	- Method/Verb - part tells what methods the request operation represents
+	- URI - the part is used for uniquely identifying the resource on the server
+	- HTTP Version - indicates which version of HTTP protocol is being used. E.g. HTTP v1.1
+	- Request Header - details of the request metadata such as client type, content format supported, message format, cache settings, etc.
+	- Request body - the actual message content to be sent to the server
+- **Core components of HTTP response**
+	- Response status code - server response status code for the requested resource
+	- HTTP Version - indicates the HTTP protocol version
+	- Response header - metadata of the response message
+	- Response body - the actual resource/message returned from the server
+- **List HTTP methods**
+	- GET: used for fetching resource from the server, and is a read-only operation
+	- POST: used for creation of new resources on the server
+	- PUT: used to update the old/existing resource on the server or to replace the resource
+	- DELETE: used to delete the resource on the server
+	- PATCH: used for modifying the resource on the server
+	- OPTIONS: fetches the list of supported options of resources present on the server
+	- POST, GET, PUT, DELETE --> CRUD
+- **PUT vs PATCH methods**
+	- PUT and PATCH are both used to modify resources
+	- PUT method works by replacing a resource with the data that is included in the request body
+		- Any fields or properties not included in the request body are deleted
+		- Any new fields or properties are added
+	- PATCH is used for making partial updates to a resource
+		- Can update one field or property even if the resource had many properties
+		- More efficient than PUT because of a reduced amount of data that must be transferred
+- **Idempotency**
+	- An HTTP method is considered idempotent if it will result in the same outcome no matter how many times it is executed
+	- All read-only methods (e.g. GET, OPTIONS, TRACE, HEAD) are idempotent, as are PUT and DELETE
+		- PUT updates the resource and subsequent requests will be overwriting the same resource again without changing anything
+		- DELETE is idempotent because the first request will return 200 and delete the resource. Subsequent requests result in nothing - Status Code 204 --> the response is different, but there is no change of resources on the server-side
+			- However, deleting the *last* resource every request will change the resource and make DELETE not idempotent
+	- POST and PATCH are not idempotent
+		- POST because calling it multiple times will result in multiple resources being created
+		- PATCH *can* be idempotent, but it is not necessarily so. 
+			- E.g. May increment a specific field every time is it called, which would modify the resource every time
+- **List HTTP Status codes**
+	- 1xx - informational 
+	- 2xx - successful
+	- 3xx - redirections
+	- 4xx - client errors
+	- 5xx - server errors
+- **Common HTTP status codes**
+	- 200 OK - request was successful, and response includes the requested data
+	- 201 CREATED - request was successful, and the server has created a new resource with the provided data
+	- 204 NO CONTENT - request was successful, but there is no additional data to send in the response. 
+		- Code is often used in response to DELETE requests
+	- 400 BAD REQUEST - server cannot understand the request due to a client error, malformed syntax, or invalid parameters
+	- 401 UNAUTHORIZED - client lacks valid credentials to access the requested data or perform the desired action
+	- 403 FORBIDDEN - client does not have permission to access the requested resource, even with valid authentication credentials
+	- 404 NOT FOUND - server cannot find the requested resource or endpoint
+	- 500 INTERNAL SERVER ERROR - server encountered an unexpected issue
+	- 503 SERVICE UNAVAILABLE - server is not ready to handle the request, often due to overload or maintenance
+	- 504 GATEWAY TIMEOUT - the server acting as a gateway or proxy did not receive a timely response from the upstream server
+- **Advantages and disadvantages of statelessness in REST**
+	- Advantages
+		- Servers don't need to manage session data, which allows them to handle large number of concurrent requests and supports horizontal scaling
+		- Leads to streamlined server logic and faster response times
+	- Disadvantages:
+		- Requests to REST API may have larger payloads, as the client must include all of the necessary information
+			- Negatively impacts network performance
+		- May also require clients to handle retries in the case of network or server failures, as there is no server-side context to help with these error scenarios
+		- Not possible to maintain sessions
+- **Some best practices for creating URI for web services**
+	- When URI is updated, the older URI must be redirected to the new one using the HTTP status code 300
+	- Use appropriate HTTP methods 
+	- Use the technique of forward slashing to indicate the hierarchy between the resources and the collections. 
+		- E.g. to get the address of the user of a particular id, we can use: `/users/{id}/address`
+- **Some best practices for developing RESTful web services**
+	- Respond with JSON data format whenever possible 
+		- Ensure `Content-Type` is set to `application/JSON` for request and response headers
+	- No more than 2-3 levels of nesting for the URI
+		- E.g. `/authors/:id/address`
+	- Error handling should be done by returning appropriate error codes the application has encountered 
+		- Appropriate error messages should also be present
+	- Incorporating SSL/TLS 
+	- Use caching where appropriate
+	- Include API versioning
+- https://www.interviewbit.com/rest-api-interview-questions/

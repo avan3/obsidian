@@ -14,11 +14,14 @@
 	- Receiving notifications from the observable
 - **Difference between Promise and Observable**
 	- Promise:
+		- Build-in JavaScript object representing a value that will be available in the future
+			- Handles one-time asynchronous operations, such as fetching data from a server or reading a file, and resolves with a single value or an error
 		- Executes immediately upon creation
 		- Provides only one value
 		- Pushes errors to the child promises
 		- Uses only `.then()` clause
 	- Observable:
+		- Part of the RxJS library and is used extensively in Angular. It represents a stream of values that can emit multiple items over time
 		- Declarative: Computation does not start until subscription, so they can run whenever you need the result
 		- Provides multiple values over time
 		- Subscribe method is used for error handling

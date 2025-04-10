@@ -26,7 +26,12 @@
 		- Cleanup just before Angular destroys the directive or component
 		- Unsubscribe observables and detach event handlers to avoid memory leaks
 		- Called immediately before Angular destroys the directive or component
-	- ![[Pasted image 20250407100259.png]]
+	- ![[Pasted image 20250407100259.png]] 
+- **Constructor vs ngOnInit**
+	- Constructor is the default method of the class that is executed when the class is instantiated and ensures proper initialization of the fields in the class and its subclasses
+		- Analyzes the constructor parameters and when it creates a new instance by calling the constructor, it tries to find providers that match the types of the constructor parameters, resolves them, and passes them to the constructor
+	- ngOnInit is a lifecycle hook called by Angular to indicate Angular is done creating the component
+		- Mostly used for initialization/declaration 
 - **View Encapsulation**
 	- Components styles can be encapsulated within the component's host element so that they don't affect the rest of the application
 	- Component decorator provides the `encapsulation` option which can be used to control how encapsulation is applied on a *per component* basis
@@ -68,6 +73,8 @@
 		- Syntax is a combination of square brackets and parentheses `[()]`. This combines the syntax from property binding `[]`, and the syntax from event binding `()`
 		- Commonly used to keep component data in sync with a form control as a user interacts with the control
 			- E.g. ngModel directive with the two-way binding syntax allows you to update the value of whatever variable you set to the directive
+		- Property binding (component to template): `<input type="email" [value]="user.email">`
+		- Event binding (template to component): `<button (click)="logout()"></button>`
 	- Property binding
 		- Passing a value from the parent component to the child component
 		- Receive it in the child component by using `@Input` decorator
@@ -94,6 +101,7 @@
 - **Dependency Injection**
 	- A technique in which a class receives its dependencies from external sources rather than creating them itself
 	- In Angular, need to add `@Injectable({ providedIn: 'root' })` decorator to service class. Then the service can be added into the constructor of the class where you plan to use the service
+		- Can be added to multiple classes which use the service
 - **Decorators in Angular**
 	- What is a decorator?
 		- Angular decorator is a function, using which we attach metadata to a class declaration, method, accessor, property, or parameter
@@ -139,7 +147,7 @@
 		- `@Optional` marks dependency as optional
 			- If the dependency is not found, then it returns `null` instead of throwing an error
 - **Directives in Angular**
-	- Angular directives helps us to manipulate the DOM - You can change the appearance, behaviour, or layout of a DOM element using directives
+	- Angular directives are classes helps us to manipulate the DOM - You can change the appearance, behaviour, or layout of a DOM element using directives
 	- Component Directives
 		- Components are directives with templates
 	- Structural Directives
@@ -152,6 +160,16 @@
 - **Templates in Angular**
 	- They are HTML that contains Angular-specific elements and attributes
 	- Provide a dynamic view to the user
+- **What are Template-driven forms and reactive forms**
+	- Template-driven forms
+		- Rely heavily on Angular's template (HTML) to handle the form's structure and validation
+		- Most logic is written directly in the template
+		- Easier to set up
+		- Leverages two-way data binding and ngModel
+	- Reactive forms:
+		- Form controls are defined and managed in the components TypeScript code using Angular's `FormGroup`, `FormControl`, and `FormBuilder` classes
+		- Provide greater flexibility and control over form creation, validation, and data handling
+		- More structured and programmatic
 - **Modules in Angular**
 	- Classes that create logical boundaries in the application
 	- Separates the functionality of the application
@@ -163,21 +181,16 @@
 - **What is a bootstrapping module**
 	- The root module that you bootstrap to launch the application
 	- Commonly known as `AppModule`
-- **Constructor vs ngOnInit**
-	- Constructor is the default method of the class that is executed when the class is instantiated and ensures proper initialization of the fields in the class and its subclasses
-		- Analyzes the constructor parameters and when it creates a new instance by calling the constructor, it tries to find providers that match the types of the constructor parameters, resolves them, and passes them to the constructor
-	- ngOnInit is a lifecycle hook called by Angular to indicate Angular is done creating the component
-		- Mostly used for initialization/declaration 
 - **What is a service**
 	- A class with a `@Injectable` decorator (and potentially `providedIn` option) that is used when common functionality needs to be provided to various modules (i.e. abstracting away functionality to a class to be used in different places)
-- **What is a directive**
-	- TODO
 - **What is an async pipe**
 	- TODO
 - **What are template expressions**
-	- TODO
+	- https://www.angular.kr/guide/understanding-template-expr-overview
 - **What are template statements**
-	- TODO
+	- Methods or properties that you can use in your HTML to respond to user events
+	- Application can engage users through actions such as displaying dynamic content or submitting forms
+	- E.g. `<button type="button" (click)="deleteHero()">Delete hero</button>`
 - **Pure Pipe vs Impure Pipe**
 	- Pure pipe is only called when Angular detects a change in the value or the parameters passed to the pipe
 	- Impure pipe is called for every change detection cycle no matter the value or parameters change
@@ -229,3 +242,28 @@
 		- Compiling computer code to machine code during execution or run time
 		- Dynamic compilation
 		- Is default
+- **Eager loading vs Lazy Loading**
+	- Eager: feature modules are loaded before the application starts
+		- Default module-loading strategy
+		- Used for smaller applications
+	- Lazy loading: dynamically loads the feature modules when there is a demand, making the application faster
+		- Used for bigger applications where not all the modules are required at the start of the application
+- **What is the DOM**
+	- Document Object Model
+	- Treats an XML or HTML document as a tree structure in which each node is an object representing part of the document
+- **Differences between Angular and JavaScript**
+	- ![[Pasted image 20250410164642.png]]
+- **How to debug Angular application**
+	- Angular DevTools
+		- Browser extension for Chrome and Firefox
+	- Using Browser Developer tools:
+		- `console.log`
+		- Breakpoints in Sources tab
+		- Monitoring API requests and responses in API tab
+- **How to handle a slow-loading Angular Application**
+	- Lazy loading modules and images
+	- `trackBy` function in `*ngFor` for very long lists
+	- Check bundle size
+	- Use developer tools to find out what is loading slowly and try to optimize
+	- Use Lighthouse to identify anything slow or incorrect
+- 
