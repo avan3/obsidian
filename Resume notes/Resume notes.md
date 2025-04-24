@@ -30,13 +30,47 @@
 	- We suspected there may be a limit of 1500 to how many users can be searched in AD. However, we could not immediately confirm it because we did not have 1500 users in any AD group. 
 	- There were suggestions of QE team generating the data, or bringing data from PROD to PAT environment and updating the sensitive information. However, due to timeline and effort constraints, we could not proceed with that.
 	- After the first deployment in PROD, the issue was not resolved. At some point, we also had to revert the ED decommission changes.
+	- In order to test the limit of the AD group search, I found an AD group that I suspected would have a lot of users. 
+	- I was also able to arbitrarily set a number as the limit to mimic the behaviour of PROD with the suspected limit of 1500. 
+	- From this, I was able to figure out how the AD group search changes based on the limit, and we were able to come up with a way to iterate as many times as necessary in order to search all the users in the AD group despite the 1500 search limit
+- **Tell me about a time you failed/made a mistake**
+	- Recently, we were working on a feature to update some text for a form generated on our application from a mockup provided by the business
+	- There were some times when we would have wrong verbiage or questions we had to bring back to the business to answer.
+	- There ended up being many iterations on the form leading to additional work and extended timelines
+	- We learned from our mistake and created a Spike story to initially investigate the mockups and ensure we understood the scope or work, and also ask the business any questions we had before starting development.
+	- As a result, the second time we had to update the forms, it went a lot more smoothly. And from my side, there were no more mistakes
 	- 
-- **Do you have any questions for us**
-	- What is your team currently working on?
+- **Questions for hiring manager**
+	- What is your team currently working on? Are there any big projects coming up?
 	- How does your team operate on a day-to-day basis? E.g. my current team follows Agile
 	- How can someone get up to speed quickly on this team?
 	- What do you expect from a successful candidate in the 3 months of this role?
-
+	- What are your expectations from someone who gets into this role?
+	- Has there been any turnover recently in your team?
+	- How do you support your team's career development?
+	- Have you received any feedback from your team about your role as a manager?
+	- If your job is reporting, are there periods when work becomes busier?
+- **SOLID principles**
+	- Single responsibility principle:
+		- A class should only have one responsibility
+	- Open-closed principle
+		- Objects or entities should be open for extension but closed for modification
+		- E.g. Animal class can't satisfy ALL animals, so need to extend from it and add functionality there instead of having Animal class adding functionality
+	- Liskov Substitution Principle:
+		- Every subclass should be substitutable for their base or parent class
+		- If you have two classes that extended from a parent class, you should be able to substitute one for the other without the code breaking
+		- E.g. If we had classes for different species of dogs, we should be able to substitute one class for another if we wanted to call a method in the class like a "bark" class
+	- Interface Segregation Principle:
+		- Client should never be forced to implement an interface it doesn't use, or clients shouldn't be forced to depend on methods they don't use
+		- E.g. shouldn't add functionality to a class that it won't use (e.g. if it needs to leave the method empty or just return instantly, then you probably should remove it)
+	- Dependency Inversion Principle:
+		- Class should depend upon interfaces or abstract classes instead of concrete classes and functions
+		- High level module must not depend on the low level module
+		- Instead of creating concrete classes within another class which will tightly couple the two classes, we should use interfaces to allow us to use different implementations
+		- E.g. Computer class with Keyboard and Mouse class. The Computer class shouldn't have a concrete class for Keyboard and Mouse because that would mean we would need to update the Computer class whenever the Keyboard or Mouse changes.
+		- Instead we should create and pass the concrete classes for Keyboard and Mouse from outside the Computer class which can be used within the Computer class as we set interfaces inside the class
+- **XBRL (eXtensible Business Reporting Language)** 
+	- Is a standard (sounds like a de-facto standard) that involves tagging financial data so that it can be used in computer software and promotes communication between entities that will use the data (for purposes of reporting)
 **Resume specific notes**
 - At TD:
 	- First bullet point (API Integration cost-saving initiative): 
@@ -62,65 +96,4 @@
 	- Second bullet point (export dataset feature):
 		- Application currently had an import feature that could import different file types. We created a feature that exported the data in a CSV format initially which was to be extended later on. 
 - At Architech:
-	- 
-**React**
-- JavaScript library used for creating user interfaces based on components
-- Has components which are reusable blocks of code that return HTML
-	- Functional:
-		- Pure JavaScript component
-		- No render method 
-	- Class:
-		- Requires you to extend from React
-		- Has a render method returning JSX
-- Props are like function parameters passing in data/values into children component
-	- Is Immutable and is read-only
-- State are property values for the component
-	- Is mutable which means you can read and write to it
-- Uses JSX (JavaScript and XML) which is a syntax extension of JavaScript
-	- Can write HTML structures in the same file that contains JavaScript code
-- Child components cannot update data coming from the parent component
-- DOM: Document Object Model is the data representation of the objects that comprise the structure and content of a document on the web
-- Virtual DOM: Lightweight representation of the real DOM in memory
-- ES6 vs ES5: 
-	- ES6 has class syntax. Creating classes instead of the functional way of creating components
-	- ES6 can import packages using import keyword instead of require keyword
-- An event is an action that a user or system performs such as a keypress, mouse click, etc.
-- HTTP methods:
-	- GET
-	- POST
-	- PUT
-	- DELETE
-	- PATCH
-	- HEAD
-	- OPTIONS
-	- TRACE
-- Safe is method that does not alter server state:
-	- GET, HEAD, OPTIONS, TRACE
-	- Not PUT, DELETE, POST, PATCH
-- Idempotent means multiple identical requests will have the same outcome:
-	- GET, HEAD, OPTIONS, TRACE, PUT, DELETE
-	- Not POST, PATCH
-- **Built in Hooks**
-	- useState: 
-		- Used to save data into state. State is an object which holds property values that belong to the component
-		- When state object changes, the component re-renders
-	- useContext:
-		- Receives data from parents that can be passed onto children without passing it as props
-	- useRef:
-		- Can hold any value that does not cause a re-render when you update the value. Usually used to hold a DOM node
-	- useEffect:
-		- Runs some additional code upon re-render or depending on what you have in the dependencies
-	- useMemo, useCallback:
-		- Prevents re-rendering through caching
-- Keys are special string attributes that identify which item in a list has been modified
-- Pure components are components that are memorized that can ignore certain re-render requests
-	- Will re-render only if one of the props has changed
-- Reconciliation is the process where the 
-- A React Component can go through four stages of its life as follows. 
-	- ****Initialization:**** This is the stage where the component is constructed with the given Props and default state. This is done in the constructor of a Component Class.
-	- ****Mounting:**** Mounting is the stage of rendering the JSX returned by the render method itself.
-	- ****Updating:**** Updating is the stage when the state of a component is updated and the application is repainted.
-	- ****Unmounting:**** As the name suggests Unmounting is the final step of the component lifecycle where the component is removed from the page.
-- **React Hook Form**
-	- Library that simplifies creating forms in React
 	- 

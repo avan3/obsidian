@@ -2,11 +2,12 @@
 	- Representational State Transfer: most commonly used architectural style for building web services and APIs
 	- Resources are identified by URIs (Uniform Resource Identifiers), and operations are performed on those resources using standard HTTP methods
 	- State of a resource is represented in JSON or XML which is transferred between the client and server in HTTP request and response bodies
+	- Involves client and server communicating through HTTP (Hypertext transfer protocol)
 - **Features of RESTful Web Services**
 	- Based on the client-server model
 	- Uses HTTP Protocol 
 	- Medium of communication between client and server is called "Messaging"
-	- Resources are accessible tot he server by means of URIs
+	- Resources are accessible to the server by means of URIs
 	- Follows the statelessness concept
 	- Can use caching to minimize server calls for the same type of repeated resources
 - **What is HTTP**

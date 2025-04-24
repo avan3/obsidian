@@ -11,7 +11,7 @@
 		- Use to initialize directive based on the data-bound properties
 		- Called once, after the first `ngOnChanges()`. 
 	- `ngAfterContentInit()`
-		- Respond after Angular projects eternal content into the components view, or into the view that a directive is in
+		- Respond after Angular projects external content into the components view, or into the view that a directive is in
 		- Called *once* after the first `ngDoCheck()`
 	- `ngAfterContentChecked()`
 		- Respond after Angular checks the content project into the directive or component
@@ -83,7 +83,7 @@
 		- Receive it in the child component by using `@Output` decorator
 	- Two-way data binding is a combination of the previous two
 - **What is interpolation**
-	- Embedding expressions into marked up text
+	- Embedding expressions into marked up text (also a type of data binding)
 	- A way to bind data from the component class to the template view
 	- Uses double curly braces `{{ }}` as delimiters
 	- E.g. Allows you to incorporate strings into the text between HTML element tags 
@@ -173,8 +173,9 @@
 - **Modules in Angular**
 	- Classes that create logical boundaries in the application
 	- Separates the functionality of the application
-	- Includes `imports`, `declarations`, `bootstrap`, `providers`
+	- Includes `imports`, `exports`, `declarations`, `bootstrap`, `providers`
 		- `imports`: used to import other dependent modules
+		- `exports`: used to export components
 		- `declarations`: define components in the respective module
 		- `bootstrap`: tells Angular which components to bootstrap in the application
 		- `providers`: Configures a set of injectable objects that are available in the injector of this module

@@ -1,0 +1,82 @@
+- **Tell me about yourself**
+	-  I've been working in the tech field for roughly over 5 years. The majority of the time was spent as a full-stack developer. 
+	- The main focus in my career so far has been full stack development mainly in Angular and Typescript, and Spring Boot and Java. 
+	- Over the years, I have worked on web applications that were either customer facing, or used by internal employees where we had opportunities to fix bugs or develop features based on feedback from the customers or users. 
+	- At TD specifically, I also had opportunities to take on larger projects such as the modernization of the UI of our application from AngularJS to Angular 12 (update of the Angular framework version), and I am currently leading the migration of one of our applications to Microsoft Azure.
+	- In the roles I've worked in, I would work collaboratively with other developers, QA testers, Product Owners, Project Managers and Scrum Masters in an Agile environment.
+	- I believe one of my strongest qualities is my work ethic. I always strive to work hard for whatever work I do to make meaningful contributions for my team, and if I’m tasked with something I do not know how to do, I will make sure to find out how to do it. I know my commitment to my work ethic will carry over to U of T should I be hired.
+- **Tell me about a time you faced a difficult technical challenge. How did you approach it?**
+	- About a year ago, we faced a production incident where some users were having trouble logging in to our application. This was after the decommissioning of Enterprise Directory (ED). 
+	- A coworker had previously migrated these users to a new AD group and updated the code to no longer search users from ED. So it was not immediately obvious what the issue was since the users should have access with the AD group.
+	- We found out later that these users were part of the RNET domain and not TDBFG when searching Active Directory (AD), so our current LDAP search would not find them since we were only looking in TDBFG 
+	- So we thought instead to authorize the user, we could search the users by AD group, and allow access if the user could be found in that list. 
+	- We suspected there may be a limit of 1500 to how many users can be searched in AD. However, we could not immediately confirm it because we did not have 1500 users in any AD group. 
+	- There were suggestions of QE team generating the data, or bringing data from PROD to PAT environment and updating the sensitive information. However, due to timeline and effort constraints, we could not proceed with that.
+	- After the first deployment in PROD, the issue was not resolved. At some point, we also had to revert the ED decommission changes.
+	- In order to test the limit of the AD group search, I found an AD group that I suspected would have a lot of users. 
+	- I was also able to arbitrarily set a number as the limit to mimic the behaviour of PROD with the suspected limit of 1500. 
+	- From this, I was able to figure out how the AD group search changes based on the limit, and we were able to come up with a way to iterate as many times as necessary in order to search all the users in the AD group despite the 1500 search limit
+- **Describe a situation where you had to make a trade-off between speed and code quality**
+	- Currently, we are migrating our application to Azure
+	- There are a lot of steps involved in doing this. There is also a lot of opportunity for enhancements
+	- We used to have a credit card that was associated with the Prime Rate (TD Emerald Flex Rate VISA). However, that product has been discontinued 
+	- We still have the code in our codebase to handle that card. 
+	- When migrating to Azure, I was having issues since we had updated how handle our configurations. 
+	- The fix was to update the way files were read into the code. Previously, it was through the file structure, but in a JAR file, I decided to open an InputStream
+	- Rather than handle all the enhancements (in this case, I would have to remove all the existing code for handling that credit card product), I prioritized getting the migration done first and correctly
+	- Reason why this is an issue is because I believe that a codebase should not contain code that you will not use. It should be removed since it will increase complexity
+- **Have you ever made a mistake in your code or system design? How did you handle it?**
+	- Recently, we were working on a feature to update some text for a form generated on our application from a mockup provided by the business
+	- There were some times when we would have wrong verbiage or questions we had to bring back to the business to answer.
+	- There ended up being many iterations on the form leading to additional work and extended timelines
+	- We learned from our mistake and created a Spike story to initially investigate the mockups and ensure we understood the scope or work, and also ask the business any questions we had before starting development.
+	- As a result, the second time we had to update the forms, it went a lot more smoothly. And from my side, there were no more mistakes
+- **Tell me about a time you worked on a cross-functional team. How did you ensure alignment?**
+	- Architech is a company I worked for that does consulting. We were the vendor for another company developing a web application used to manage their operations.
+	- We operated like a regular Agile team where we would have daily standups to update the client team with whatever work we were doing and ask questions
+	- There were times when there were incidents and we would have to work closer with the client
+	- For example, occasionally there would be an incident where we had to figure out where the root cause was. This would usually be figuring out whether the issue was data related or on the codebase side. 
+	- Because of this, the client would create backups of the databases and load them into the staging environment where we can investigate the issue. 
+	- We would sometimes have to communicate with them via Slack to reload the backups again incase we needed to refresh the data, or get in calls with them incase we had any questions or wanted to discuss something
+- **Describe a time when you had a conflict with a teammate. How did you resolve it?**
+	- I think I have been fortunate to not have any major conflicts with a coworker. 
+	- In recent times, the most would probably just asking about their implementation for a feature and ask why it was done that way.
+	- If I do get into a conflict with a coworker, I would:
+		- Find time where I could talk with the person directly 
+		- Focus on the issue at hand, not bringing in any personal issues
+		- Listen carefully
+		- Identify points of agreement and disagreement
+		- Prioritize the areas of conflict
+		- Develop a plan to work on each conflict
+		- Follow through on your plan
+		- Build on your success
+- **Give an example of a time you helped a junior engineer solve a problem or grow.**
+	- So I have been very fortunate when it comes to my career because a lot of what I learned was on the job
+	- I had some great coworkers to work with who always tried to guide me in the right directions
+	- I had the opportunity RxJS on the job, and I realize that this library is not necessarily something that you may learn in school or even working on your own personal projects
+	- In this situation, I have a coworker who is still in school (one of the smartest, and most hardworking people I have met). However, he is not as familiar with RxJS. 
+	- He does have some understanding of it since it is frequently used within our codebase (so he is also learning it on the job)
+	- He recently asked me about some code he was working on that was subscribing from an EventEmitter and displaying the value on the template. 
+	- He wanted to leverage the `async` pipe but was unsure on whether that was possible. 
+	- So I was able to rewrite his code and save the subscription into a variable and leverage the `async` pipe in order to display the value
+	- He also asked me whether it was better to use a manual subscription vs the `async` pipe, and I replied that usually it is better to use an `async` pipe since it handles the subscription but also unsubscribing from the observable. 
+- **Describe a project where the requirements changed midway. What did you do?**
+	- If I recall correctly, I was working on some form changes and was basically finalized on the feature. 
+	- About a week before the scheduled deployment to our PAT environment (higher environment involving release team), the journey (business-side) wanted to update some content
+	- The deadline was tight since it would have to involve QE testing as well. So even though we were a week away from the deployment, realistically, I only had a day or two to make the change the deploy it to the SIT environment where QE would test.
+	- If we could not get the change done, we either could not include the changes or we would have to delay the PAT deployment. 
+	- With this change, I am aware of how long things may take so I was able to properly evaluate the amount of work and the timeline, and get the change completed.
+	- I did have to bother the team responsible for deploying the changes to SIT environment. They are very responsive which I am grateful for. 
+	- And so we did not have to change our PAT timeline.
+- **Describe a project you led. What was the outcome?**
+	- Currently, in our migration to Azure, we had three assets where a senior developer and another developer were assigned to work on it together.
+	- However, the senior developer who I was meant to work with went on maternity leave so I became the main point of contact for the migration
+	- With this role, I had to make decisions such as which enhancements we can include while prioritizing the migration, whether or not to include Azure App Configuration which is a store in Azure for configuration (originally our team thought we could leverage it, but after researching it, I quickly realized it would not work for our purposes). 
+	- Right now, I am facing issues in the migration that may require us to make some significant code changes or else we would be blocked, and that is something I plan on discussing with my team to get their opinion on it
+- **Have you ever suggested a major improvement to a system or process? What happened?**
+	- I worked on a breadcrumb feature for the modernization of the App.
+	- Our Product Owner wanted to keep everything as close to the original App as possible.
+	- The issue was that the routing from the old App to the new App did not work well for generating breadcrumbs. 
+		- Normally, there would be levels of nesting and that can be used recursively to generate the breadcrumbs
+	- After developing the original solution, which wasn't ideal and involved way more complexity than necessary, I suggested to my Product Owner that we rework the routing which would then have an impact on the URL, but would make it easier to generate the breadcrumbs.
+	- He agreed to the solution and I was able to rework the breadcrumbs and have the routing nested more which aligns more with our app. 

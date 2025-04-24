@@ -1,0 +1,7 @@
+- Google Java Style guide - what are some best practices
+- Code Performance - multithreading, asynchronous
+- Validation with Spring Boot - are there annotations for validation?
+- Encryption methods - Base64
+- Accessibility - WCAG
+- Feature flags
+- 

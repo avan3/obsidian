@@ -1,0 +1,204 @@
+- **What is an iterator in Python**
+	- An object that can be iterated upon, meaning you can traverse through all the values
+	- An object which implements the iterator protocol, which consists of the methods `__iter__()` and `__next__()` 
+- **What is the `__init__()` function in Python?**
+	- All classes in Python have a function called `__init__()` which is always executed when the class is being initiated
+	- Equivalent to constructors in OOP terminology
+	- Reserved method in Python classes
+	- Use when assigning values to object properties, or other operations that are necessary to do when the object is being created
+- **When should you use lambda functions in Python?**
+	- When an anonymous function is required for a short period of time
+- **Difference between lists, tuples, and sets**
+	- All used to store multiple items in a single variable
+	- List:
+		- Collection of data which is ordered and changeable (elements can be added, removed and changed)
+	- Tuple:
+		- Collection of data which is ordered and unchangeable (elements cannot be added, removed, or changed)
+	- Set:
+		- Collection of data which is unordered, unchangeable (elements can be added and removed, but not changed), and unindexed
+- **How can you check if all the characters in a string are alphanumeric?**
+	- Use `isalnum()` method to check if all characters if alphanumeric (alphabet letters `a-z` and numbers `0-9`)
+- **Correct syntax to output the type of a variable or object in Python**
+	- `print(type(x))`
+- **Python build-in data types**
+	- Text Type: `str`
+	- Numeric Types: `int`, `float`, `complex`
+	- Sequence Types: `list`, `tuple`, `range`
+		- Have the `in` and `not in` operators defined for their traversing their elements
+	- Mapping Type: `dict`
+	- Set Types: `set`, `frozenset`
+	- Boolean Type: `bool`
+	- Binary Types: `bytes`, `bytearray`, `memoryview`
+	- None type: `None`
+		- Represents null values in Python
+- **Python membership operators**
+	- Membership operators are used to test if a sequence is present in an object
+	- The `in` and `not in` operators are examples of these:
+		- `print("banana" in x)`
+		- `print("pineapple" not in x)`
+- **Statement that can be used to avoid errors if an `if` statement has no content**
+	- `pass`
+	- Can also be used in a function with no content
+	- Filling up empty blocks of code which may execute during runtime but has yet to be written
+	- Can skip errors during code execution
+- **Arbitrary Arguments**
+	- Shortened to `*args`
+	- If you do not know how many arguments will be passed into your function, add a `*` before the parameter name in the function definition
+		- Function will receive a tuple of arguments and can access the items accordingly
+- **Can you copy a List in Python by simply writing: `list2 = list1`**
+	- No, because `list2` will only be a reference to `list1` and changes made in `list1` will automatically also be made in `list2`
+	- To make a copy of a list, you can use `copy()` or the `list()` method
+- **How can you return a range of characters of a string**
+	- Using the "slice syntax"
+	- Specify the start index and end index, separated by a colon, to return part of a string
+	- `substring = s[start : end : step]`
+	- E.g. `print(b[2:5])`
+- **Python is a dynamically typed language**
+	- Static typed: data type is known at compile time 
+		- E.g. Java
+	- Dynamically typed: do not require any pre-defined data type for any variable
+		- E.g. Python, JavaScript
+- **Variable Scope in Python**
+	- Local, Global, Module, Outermost
+- **Difference between / and // in Python**
+	- / represents precise division and results in a floating point number
+	- // represents floor division and results in an integer
+	- E.g. 
+		- `5//2 = 2, 5/2 = 2.5`
+- **Is Python Pass by Value or Pass by Reference**
+	- Neither. It is "Pass by Object Reference"
+	- Depending on the type of object you pass in the function, the function behaves differently
+		- Immutable objects show "pass by value", wheras;
+		- Mutable objects show "pass by reference"
+			- For lists, you can append to the list
+			- But reassigning the list will not persist
+-  **How is dictionary different from a list**                   ]
+	- List is ordered collection of items accessed by index
+	- Dictionary is an unordered collection of key-value pairs accessed using unique keys
+	- E.g. `[10,20,30]` vs `{"a": 10, "b": 20, "c": 30}`
+- **What is list comprehension**
+	- A way to create lists using concise syntax
+	- Generate new list by applying an expression to each item in an existing iterable
+	- E.g. `[val ** 2 for val in a]`
+- **What is dictionary comprehension**
+	- Syntax construction to ease the creation of a dictionary based on an existing iterable
+	- E.g. `{ k:v for (k,v) in zip(keys, values) }`
+- **Tuple comprehension in Python**
+	- Not possible
+- `*args` **vs** `**kwargs`
+	- `*args` passes in arguments as a list
+	- `**kwargs` passes in arguments as a dictionary
+- **How can you concatenate two lists in Python**
+	- Using the + operator
+		- E.g. `list1 + list2`
+	- Using the `extend()` method
+		- E.g. `list1.extend(list2)`
+- **Exception handling in Python**
+	- `try`, `except`, `finally`
+- **Array vs List**
+	- In python, arrays are a collection of numeric elements that are all of the same type
+		- Requires importing a module
+	- Lists are more flexible than arrays and can hold elements of different types
+		- Built-in, does not require importing additional modules
+- **Difference between modules and packages**
+	- Module is a single file that contains Python code which can be reused in other programs
+		- Think of it as a code library
+		- Benefits:
+			- Simplicity
+				- Helps you focus on a relatively small portion of the problem at hand
+			- Maintainability
+				- Designed to enforce logical boundaries between different problem domains
+				- Reduces interdependency, less likely that modifications in a module might impact other parts of the program
+			- Reusability
+				- Can be easily reused by other parts of the application
+			- Scoping
+				- Typically define a separate namespace, which helps avoid confusion between identifiers in other parts of the program
+	- Package is a collection of related modules stored in a directory (file structure)
+		- Importing a module or its contents from this package requires the package name as prefix to the module named joined by a dot
+- **Range function in Python**
+	- Functions that could be used to iterate a certain number of times in for loops in Python
+	- `range()` returns a range object, which is an immutable sequence type that generates the numbers on demand
+- **Shallow vs Deep copy**
+	- Shallow copy: 
+		- Copies only the reference of the object
+		- Any changes made to the new copy is changed in the original object
+		- Is faster
+	- Deep copy:
+		- Copies the objects values and creates new object
+		- Changes to new copy is not changed in the original object
+		- Is comparatively slower
+- **Difference between `==` and `is` operator in Python**
+	- Both used for comparison but serve different purposes
+	- `==`:
+		- Checks for equality of the values which means it evaluates whether the values of two objects are the same
+	- `is`:
+		- Checks for identity, meaning it determines whether two variables point to the same object in memory
+	- E.g.
+		- `x = [1,2,3], y = [1,2,3]`
+		- `x == y` is true
+		- `x is y` is false
+- **`sorted()` vs `sort()` in Python**
+	- `sorted()`
+		- Sorts the given sequence as well as set and dictionary either in ascending or descending order and always returns a sorted list
+		- Method does not affect the original sequence
+	- `sort()`
+		- Unlike `sorted()`, this method returns nothing and makes changes to the original sequence
+		- Also is a method of list class and can only be used with lists
+- **Generators in Python**
+	- Generator yields expression in the function
+	- The `yield` keyword pauses the current execution by saving its states and then resumes from the same when required
+- **Python supports multiple inheritence**
+	- Multiple inheritance is when a class is derived from more than one base class
+	- The derived class inherits all features from the base class
+- **Polymorphism**
+	- The ability to take multiple forms
+	- Allows different classes to be treated as if they are instances of the same class through a common interface
+- **Namespace**
+	- Namespace is a space where names are defined and stored and helps avoid naming conflicts by ensuring that names are unique within a given scope
+	- E.g. 
+		- Built-in
+			- Contains built-in functions and exceptions like `print()` and `int()`
+		- Global
+			- Contains names from all objects, functions and variables in the program at the top level
+		- Local
+			- Refers to names inside a function or method
+- **PIP**
+	- Python installer package: a command-line tool to install various Python modules
+- **What is a zip function**
+	- Returns a zip object --> iterator of tuples
+	- Takes an iterable and converts it into an iterator, and aggregates the elements based on iterables passed
+- **Pickling vs Unpickling**
+	- Pickling: 
+		- Converts any Python object into a byte stream
+		- Byte stream can then be stored in a file, sent over a network, or saved for later use
+		- `pickle.dump()`
+	- Unpickling:
+		- Process of retrieving the original Python object from the byte stream (saved during pickling)
+		- `pickle.load()`
+- **Instance, class, static method**
+	- Instance method operates on an instance of the class and has access to instance attributes and takes `self` as the first parameter
+	- Class method directly operates on the class itself and not on instance. Takes `cls` as the first parameter and defined with `@classmethod`
+	- Static method does not operate on an instance or the class and takes no `self` or `cls` as an argument and is defined with `@staticmethod`
+- **Python Global Interpreter Lock**
+	- Process lock used by Python whenever it deals with processes
+	- Generally, Python only uses one thread to execute the set of written statements
+	- Performance of single-threaded process and multi-threaded process will be the same in Python because of the GIL
+- **Python Switch-Case**
+	- Since 3.10, Python implemented a switch-case called "structural pattern matching"
+	- Implemented with `match` and `case` keywords
+- **How to make Python Script executable on Unix**
+	- Script file must begin with `#!/usr/bin/env python`
+- **What is docstring in Python**
+	- Documentation string or docstring is a multiline string used to document a specific code segment
+- **Use of `self` in Python**
+	- `self` is used to represent the instance of the class
+	- With this keyword, you can access the attributes and methods of the class
+	- `self` is not a keyword in Python
+- **Access modifiers**
+	- Protected attributes are defined with a underscore prefixed to their identifier 
+		- E.g. `_sara`
+		- Can still be accessed and modified from outside the class 
+	- Private attributes are defined with double underscore to their identifier
+		- E.g. `__ansh`
+		- Cannot be accessed or modified from outside directly
+	- 

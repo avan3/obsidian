@@ -1,6 +1,16 @@
 - **What is RxJS**
 	- Library for reactive programming - composing asynchronous and callback-based code in a functional, reactive style using observables
-	- 
+- **What is NgRX**
+	- Framework for building reactive applications in Angular
+	- Provides state management
+	- Benefits:
+		- Centralized, immutable state
+			- All relevant application state exists in one location
+			- Easier to track down problems, as a snapshot of the state at the time of the error can provide important insight and make it easy to recreate issues
+		- Performance
+			- Data updates can flow down through your components relying on slices of store
+		- Testability
+			- All state updates are handled in reducers, which are pure functions
 - **What are observables**
 	- Object similar to Promise that helps manage async code
 	- Are declarative which provide support for passing messages between publishers and subscribers in your application
@@ -40,4 +50,19 @@
 	- Composing multiple streams
 - **What happens if you do not supply handler for the observer**
 	- If yo do not supply a handler for a notification type, the observer just ignores notifications of that type
+- **What are reducers in NgRX**
+	- Reducers are pure functions that are responsible for handling transitions from one state to the next state in your application
+	- Reducers handle these transitions by determining which actions to handle based on the actions type
+	- Reducers *change* state by making a copy of existing state and changing one or more properties on the new state
+		- Since the state in NgRX is immutable
+- **What are actions in NgRX**
+	- One of the main building blocks in NgRX
+	-  Express unique events that happen throughout your applications
+	- Objects that extend the NgRX Action class with a `type` property
+	- Have an optional `payload` property for sending data to the effect/reducer and are dispatched by the store to either run an effect or change state in a reducer
+- **What are states in NgRX**
+	- A single, immutable data structure
+	- Actions describe state changes
+	- Pure functions, called reducers, take the previous state and the next action to compute the new state
+	- State accessed with the Store, an observable of state and observer of actions
 - 

@@ -1,0 +1,165 @@
+- JavaScript library used for creating user interfaces based on components
+- Has components which are reusable blocks of code that return HTML
+	- Functional:
+		- Pure JavaScript component
+		- No render method 
+	- Class:
+		- Requires you to extend from React
+		- Has a render method returning JSX
+- Props are like function parameters passing in data/values into children component
+	- When props change, component is re-rendered
+	- Is Immutable and is read-only
+	- Possible to have a default value
+- State are property values for the component
+	- Object that holds data for the component
+	- Is mutable which means you can read and write to it
+	- When state changes, the component re-renders
+	- `useState` hook for functional components
+	- `this.state` for class components
+- Features of React:
+	- Uses JSX (JavaScript and XML) which is a syntax extension of JavaScript
+		- Can write HTML structures in the same file that contains JavaScript code
+	- Uses Virtual DOM 
+	- Supports server-side rendering which is useful for SEO
+	- Follows Unidirectional or one-way data flow or data binding
+	- Uses reusable/composable UI components to develop the view
+- Element vs Component:
+	- Element is created with `React.createElement` and can have props
+	- Component can be created in a class (extended with `React.Component`) with `render()` method or it can be defined as a function
+		- Return some JSX
+		- Choose class Component when you need features only available in class component such as lifecycle methods
+- **Lifecycle methods in React:**
+	- 
+- Child components cannot update data coming from the parent component
+- DOM: Document Object Model is the data representation of the objects that comprise the structure and content of a document on the web
+- **Virtual DOM: Lightweight representation of the real DOM in memory**
+	- Synced with the "real" DOM
+- **Shadow DOM vs Virtual DOM**
+	- Shadow DOM is browser technology designed primarily for scoping variables and CSS in web components
+	- Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs
+- **React Fiber** is the new reconciliation engine or reimplementation of the core algorithm in React v16
+- **Controlled components**
+	- Controls the input elements within the forms on subsequent user input
+	- 
+- **Uncontrolled components**
+	- 
+- **Higher Order components**
+	- Takes a component and returns a new component
+	- Are **pure components**
+	- 
+- XSD vs XSL:
+	- XSD: used to define the structure of an XML document
+	- XSL: style sheet for XML documents. Describes how XML document should be displayed
+		- Can transform XML to XHTML
+- **XSS attack**
+	- When your website runs some JavaScript to grab your credentials from input fields and process them, there can be additional JavaScript run to do something detrimental with that information
+	- Attacker can exploit your application's vulnerability to inject some malicious script into your user's browser
+	- DOM-based XSS attack
+		- When you mutate DOM directly, it becomes easy for an attacker to inject it with data containing malicious JavaScript
+		- Attacker can inject some JavaScript with <script/> tags
+		- Possible for attacker if you append elements to the DOM or if you use `innerHTML`
+	- **How does React handle XSS**
+		- React outputs elements and data inside them using auto escaping
+		- Interprets everything inside validationMessage as a string and does not render any additional HTML elements
+		- Another way XSS attack can happen in React is by using a `prop` called `dangerouslySetInnerHTML` 
+			- It takes an object with a key `__html` whos value is the HTML markup you wish to render inside the container
+			- E.g. `<div dangerouslySetInnerHTML={{__html:blog}}></div>`
+			- To protect your application, you must sanitize the data that contains HTML elements before rendering it to the DOM
+				- use library such as `DOMPurify`
+				- `const sanitizedBlog = DOMPurify.sanitize(blog)`
+			- Conclusion: try not to use `innerHTML`
+				- Can use `innerText` instead
+- **ES6 vs ES5:** 
+	- ES6 has class syntax. Creating classes instead of the functional way of creating components
+	- ES6 can import packages using import keyword instead of require keyword
+- An event is an action that a user or system performs such as a keypress, mouse click, etc.
+- **HTTP methods:**
+	- GET
+	- POST
+	- PUT
+	- DELETE
+	- PATCH
+	- HEAD
+	- OPTIONS
+	- TRACE
+- Safe is method that does not alter server state:
+	- GET, HEAD, OPTIONS, TRACE
+	- Not PUT, DELETE, POST, PATCH
+- Idempotent means multiple identical requests will have the same outcome:
+	- GET, HEAD, OPTIONS, TRACE, PUT, DELETE
+	- Not POST, PATCH
+- **Built in Hooks**
+	- useState: 
+		- Used to save data into state. State is an object which holds property values that belong to the component
+		- When state object changes, the component re-renders
+	- useContext:
+		- Receives data from parents that can be passed onto children without passing it as props
+		- Will cause a re-render when context value changes
+	- useRef:
+		- Can hold any value that does not cause a re-render when you update the value. Usually used to hold a DOM node
+	- useEffect:
+		- Runs some additional code upon re-render or depending on what you have in the dependencies
+	- useMemo, useCallback:
+		- Prevents re-rendering through caching
+- **Keys** are special string attributes that identify which item in a list has been modified
+	- Should be unique among its siblings
+	- Most often we use ID from our data as the `key`
+	- Accepts either string or number and internally converts it as string type
+	- Will have warning message in console if `key` prop is not present on list items
+	- Can use index as key as last resort, but not recommended
+		- Order of items may change
+	- Do not generate key on the fly like `key={Math.random()}` because the keys will never match up
+- **Pure components** are components that are memorized that can ignore certain re-render requests
+	- Will re-render only if one of the props has changed
+		- Comparison via shallow comparison
+	- Has same output for same state and props
+		- Doesn't need to compare previous state to current state because functional components by default prevent unnecessary rendering when you set the same state again
+	- Achieved through memoized `React.memo()` in Functional components
+	- Class components extend `React.PureComponent` instead of `React.Component`
+	- Beneficial for performance
+- **Reconciliation** is the process where the UI is updated efficiently
+	- Step between render function being called and displaying elements on screen
+	- It does this through comparing differences (through a diffing algorithm) in the Virtual DOM and updating the parts that have changed (when there is an event, or state change --> something that would trigger a re-render)
+		- When we make changes or add data, React creates a new Virtual DOM and compares it with the previous one through the diffing algorithm
+		- Then comparison between Virtual DOM and real DOM and finds out the changed nodes and updates only the changed nodes in the real DOM and leaves the other nodes as is
+- A React Component can go through four stages of its life as follows. 
+	- ****Initialization:**** This is the stage where the component is constructed with the given Props and default state. This is done in the constructor of a Component Class.
+	- ****Mounting:**** Mounting is the stage of rendering the JSX returned by the render method itself.
+	- ****Updating:**** Updating is the stage when the state of a component is updated and the application is repainted.
+	- ****Unmounting:**** As the name suggests Unmounting is the final step of the component lifecycle where the component is removed from the page.
+- **React Hook Form**
+	- Library that simplifies creating forms in React
+- **Client side rendering vs Server side rendering**
+	- Client-side:
+		- Browser receives an initial blank HTML with script tags
+		- Browser downloads the JS files and builds the web app in the browser
+	- Server-side:
+		- Creating a fully formed HTML document on the server
+		- Then browser downloads, parses and executes the JS (hydration --> adds interactivity to the website such as adding handlers to buttons, events to elements on page like onClick)
+		- Better for performance and SEO
+- **HTML vs React Event Handling**
+	- HTML:
+		- Has event name in *lowercase*
+			- E.g. `onclick`
+		- Can return false to prevent default behaviour
+		- Invoke function by appending `()`
+	- React
+		- Has event name in *camelCase*
+			- E.g. `onClick`
+		- Must call `event.preventDefault()` to prevent default behaviour
+		- Do not include `()` when invoking functions
+			- E.g. `onClick={activateLasers}`
+- **Synthetic Events in React**
+	- Cross-browser wrapper around the browser's native events
+	- Events work identically across all browsers
+	- Native browser events can be accessed from synthetic events using `nativeElement` attribute
+- **Inline conditional expressions**
+	- You can use `if` statements or ternary expressions which are available from JS to conditionally render expressions
+	- You can also embed any expressions in JSX by wrapping them in curly braces and then followed by JS logical operator `&&`
+- **Lifting state up in React**
+	- When several components need to share the same changing data then it is recommended to *lift* the shared state up to their closet common ancestor
+	- E.g. if two child components share the same data from its parents then move state to parent instead of maintaining local state in both child components
+- **What is children prop?**
+	- Children is a prop that allows you to pass components as data to other components
+	- E.g.`function mvDiv({ children }) { return ( <div>{children}</div> ); }`
+- 

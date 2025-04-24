@@ -32,7 +32,10 @@
 - **Synchronized keyword**
 	- 
 - **Autoboxing vs Unboxing**
-	- 
+	- Conversion between primitive types and their corresponding object wrapper classes
+- **Widening vs Narrowing**
+	- Widening is when you pass a smaller data type into a larger size type
+	- Narrowing is the opposite
 - **Transient and Volatile**
 	- 
 - **Characteristics of OO programming languages**
@@ -60,3 +63,64 @@
 	- Build tool: tool to compile, test, and package your application (i.e. jar, war, ear)
 	- Provides a default project structure, and pom.xml (**Project Object Model** config file which includes information about the project (including groupId, artifactId), versioning, dependencies, plugins)
 - **GRADLE**
+- **Garbage collection**
+	- Process by which Java programs perform automatic memory management
+		- When Java program runs on JVM, objects are created on the heap.
+		- Garbage collection looks at the heap and identifies the objects which are in use and which are not and deleting the unused objects
+			- Unused means the application does not maintain a pointer to that object
+		- A used object, or referenced object, means that some part of your program still maintains a pointer to that object
+	- Mark-and-Sweep GC algorithm:
+		- Mark phase:
+			- Marks unreferenced objects mark bit to 0, while referenced objects mark bit is set to 1
+		- Sweep phase:
+			- Clears the heap memory for all of the unreachable objects
+	- Types:
+		- Minor or incremental: occurs when unreachable objects in the younger heap are removed
+		- Major or full: occurs when the objects that survived the minor garbage collection are copied to the old generation or permanent generation heap memory are removed (occurs less frequently)
+	- How to make an object eligible for garbage collection:
+		- Nullify the reference variable:
+		- Re-assigning the reference variable:
+		- An object created inside the method: object reference is garbage collected after method execution?
+		- Island of isolation: objects that are referenced by each other but not in any other part of the application
+	- Can manually run garbage collection:
+		- When we make an object eligible for garbage collection, it may not immediately be destroyed
+		- We can request JVM to run garbage collection:
+			- System.gc() method
+			- Runtime.getRuntime().gc() method
+			- Finalize():
+				- Method to perform cleanup activities such as releasing all the resources used by the object before it is deleted/destroyed by the garbage collector
+				- Is not a reserved keyword, **it is a method!**
+				- Once method completes, garbage collection destroys that object
+				- Never run more than once for any object
+				- If uncaught exception is thrown, the exception is ignored and the finalization of the object terminates
+	- Memory Leak:
+		- Objects exist on the heap but the garbage collector is unable to remove them from memory
+		- **Blocks memory resources and degrades system performance over time**
+		- Garbage collection removes unreferenced objects periodically, but it never collects the objects that are still being referenced. This is where memory leaks can occur
+		- Symptoms:
+			- **Performance degradation**
+			- **OutOfMemoryError**
+			- Spontaneous and strange **application crashes**
+		- Through:
+			- Static fields:
+			- Have a life that usually matches the entire lifetime of the running application
+				- Try to lazy load not eagerly load if you must use static
+			- Unclosed resources:
+				- Forgetting to close resources such as an open stream (e.g. database connections, input streams, session objects)
+			- Improper equals() and hashCode() implementations:
+				- In a map, there shouldn’t be duplicate keys but if you pass in multiple objects with the same key and the equals() method is not implemented correctly, can increase the memory (will not know it’s a duplicate object and keep putting in the object into the map thereby increasing memory)
+- **Synchronization:**
+	- Synchronized keyword: used to specify that a code block can only have one thread executing at a time. Other threads attempting to execute that coed block are blocked until the thread currently executing exits the code block
+- **What is static keyword?**
+	- Adding the static keyword to a variable or method means that variable/method belongs to the type/class itself rather than the instance of the type/class
+	- When declaring a field static, exactly one copy of that field is created and shared among all instances of that class
+	- **Static methods cannot be overridden**
+	- Abstract methods cannot be static
+	- Static methods can’t use this or super keywords
+	- **Static methods can only access static fields**
+	- **Static methods can’t access instance variables and instance methods directly. They need some object reference to do so**
+- **Final vs finally vs finalize:**
+	- Final (keyword): cannot modify its value. Also, cannot be overridden by a subclass
+	- Finally (block) is the block in the try catch block that always executes at the end
+		- Does not execute on system.exit() or system crash
+	- Finalize (method): look above at garbage collection section
