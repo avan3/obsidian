@@ -124,3 +124,19 @@
 	- Finally (block) is the block in the try catch block that always executes at the end
 		- Does not execute on system.exit() or system crash
 	- Finalize (method): look above at garbage collection section
+- **Secure JAVA**
+	- https://medium.com/@kirti07arora/secure-coding-practices-techniques-for-writing-secure-java-code-dd8a7d659807
+	- Input Validation and Sanitization 
+		- To prevent Cross-site scripting (XSS)
+	- Use Prepared Statements
+	- Avoid Hard-Coded Credentials
+	- Implement Proper Error Handling
+	- Avoid Serialization Vulnerabilities
+		- Also leverage SerializeUID
+	- Keep libraries and frameworks up-to-date
+	- Apply the principle of least privilege
+		- Only give necessary permissions required for application to function
+		- E.g. Only giving certain users READ access
+	- Don't log sensitive information
+	- Hash User Passwords
+	- 

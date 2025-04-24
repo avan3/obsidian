@@ -1,6 +1,13 @@
+- **Python interpreted or compiled**
+	- It is both
+	- First it is compiled into source code (bytecode `.pyc`), then it is interpreted by the official CPython or JIT compiled by PyPy
+- **PYTHONPATH**
+	- Environment variable which you can set to add additional directories where Python will look for modules and packages
 - **What is an iterator in Python**
 	- An object that can be iterated upon, meaning you can traverse through all the values
 	- An object which implements the iterator protocol, which consists of the methods `__iter__()` and `__next__()` 
+		- `__iter__()` method initializes an iterator
+		- `__next__()` returns the next item in the iteration and points to the next element
 - **What is the `__init__()` function in Python?**
 	- All classes in Python have a function called `__init__()` which is always executed when the class is being initiated
 	- Equivalent to constructors in OOP terminology
@@ -8,6 +15,8 @@
 	- Use when assigning values to object properties, or other operations that are necessary to do when the object is being created
 - **When should you use lambda functions in Python?**
 	- When an anonymous function is required for a short period of time
+	- Can accept any number of arguments, but can only have a single expression
+	- E.g. `mul = lambda a, b : a * b`
 - **Difference between lists, tuples, and sets**
 	- All used to store multiple items in a single variable
 	- List:
@@ -20,6 +29,11 @@
 	- Use `isalnum()` method to check if all characters if alphanumeric (alphabet letters `a-z` and numbers `0-9`)
 - **Correct syntax to output the type of a variable or object in Python**
 	- `print(type(x))`
+- **Split vs Join**
+	- `split()` function to split a string based on a delimiter to a list of strings
+		- E.g. `string_list = string.split(' ')`
+	- `join()` to join a list of strings based on a delimiter to output a single string
+		- E.g. `' '.join(string_list)`
 - **Python build-in data types**
 	- Text Type: `str`
 	- Numeric Types: `int`, `float`, `complex`
@@ -59,7 +73,10 @@
 	- Dynamically typed: do not require any pre-defined data type for any variable
 		- E.g. Python, JavaScript
 - **Variable Scope in Python**
-	- Local, Global, Module, Outermost
+	- Scope is a block of code where an object in Python remains relevant
+	- Local, Global, Module, Outermost (built-in names)
+	- E.g. declaring a variable of global-scope does not interfere with setting a variable of local-scope within a function
+	- ![[Pasted image 20250423220634.png]]
 - **Difference between / and // in Python**
 	- / represents precise division and results in a floating point number
 	- // represents floor division and results in an integer
@@ -119,14 +136,17 @@
 	- Functions that could be used to iterate a certain number of times in for loops in Python
 	- `range()` returns a range object, which is an immutable sequence type that generates the numbers on demand
 - **Shallow vs Deep copy**
+	- Assignment operator (i.e. `=`) does not copy objects, but creates binding between the existing object and target variable name (acts like it copies though)
 	- Shallow copy: 
 		- Copies only the reference of the object
 		- Any changes made to the new copy is changed in the original object
 		- Is faster
+		- Can use copy function (i.e. `=` or `copy()`)
 	- Deep copy:
 		- Copies the objects values and creates new object
 		- Changes to new copy is not changed in the original object
 		- Is comparatively slower
+		- Use deep copy function (i.e. `deepcopy()`)
 - **Difference between `==` and `is` operator in Python**
 	- Both used for comparison but serve different purposes
 	- `==`:
@@ -145,7 +165,7 @@
 		- Unlike `sorted()`, this method returns nothing and makes changes to the original sequence
 		- Also is a method of list class and can only be used with lists
 - **Generators in Python**
-	- Generator yields expression in the function
+	- Generator is a function that returns an iterable collection of items, one at a time, in a set manner
 	- The `yield` keyword pauses the current execution by saving its states and then resumes from the same when required
 - **Python supports multiple inheritence**
 	- Multiple inheritance is when a class is derived from more than one base class
@@ -153,10 +173,20 @@
 - **Polymorphism**
 	- The ability to take multiple forms
 	- Allows different classes to be treated as if they are instances of the same class through a common interface
+- **Inheritance**
+	- Creating a child class from a parent class
+		- E.g. 
+			- `class Person:` --> Parent class
+			- `class Student(Person)` --> Child class
+	- Accessing parent members in child class
+		- Using Parent class name 
+			- E.g. `Parent.name = name`
+		- Using `super()`
+			- E.g. `super(Child, self).__init__(name)`
 - **Namespace**
 	- Namespace is a space where names are defined and stored and helps avoid naming conflicts by ensuring that names are unique within a given scope
 	- E.g. 
-		- Built-in
+		- Built-in (Outermost)
 			- Contains built-in functions and exceptions like `print()` and `int()`
 		- Global
 			- Contains names from all objects, functions and variables in the program at the top level
@@ -201,4 +231,11 @@
 	- Private attributes are defined with double underscore to their identifier
 		- E.g. `__ansh`
 		- Cannot be accessed or modified from outside directly
+- **Decorators in Python**
+	- Functions that add functionality to an existing function in Python without changing the structure of the function itself
+- **Garbage Collection**
+	- Python has automatic garbage collection
+	- Has `finalize` method for freeing up the unmanaged resources and clean up before garbage collection method is invoked
+- **What is main function in Python**
+	- Main function is considered the entry point of execution for a program
 	- 

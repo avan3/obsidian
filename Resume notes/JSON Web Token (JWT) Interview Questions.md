@@ -46,4 +46,18 @@
 	- When encoded, size is also smaller (more compact than SAML)
 	- Can use public/private key pair in the form of a X.509 certificate for signing
 	- Easier to work with JWT because JSON parsers are common in most programming languages (JSON can map directly to objects)
-	- 
+- **Security and Best Practices**
+	- Use `HTTP-only` cookies to prevent JavaScript access
+		- Only used in HTTP requests
+	- Set the `secure` flag to allow transmission over HTTPS only
+	- Enable `SameSite` to restrict cross-origin usage
+	- Encrypt the cookie if additional security is needed
+	- Use short-lived access tokens with a refresh token stored securely (e.g. in an HTTP-only cookie)
+	- Invalidate cookies upon logout or suspected compromise
+- **Compare security implications of storing a JWT in a cookie versus local storage**
+	- Cookie: safer due to HTTP-only and Secure flags but susceptible to CSRF
+		- CSRF (Cross-Site Request Forgery): 
+			- Web security vulnerability that allows an attacker to induce users to perform actions that they do not intend to perform
+			- E.g. a request coming from a different domain that sends a request in order to change your password
+			- Use `SameSite` attribute (`Strict` or `Lax`) for cookies to prevent CSRF
+	- Local Storage: Vulnerable to XSS attacks since JavaScript can access it
