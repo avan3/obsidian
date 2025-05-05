@@ -1,10 +1,209 @@
+- **What does the @SpringBootApplication annotation do internally?**
+	- The @SpringBootApplication annotation is equivalent to using `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan` with their default attributes
+		- `@EnableAutoConfiguration`: Enables Spring Boot's auto-configuration
+			- Automatically configures components based on classpath dependencies
+			- Reduces manual configuration and provides ready-to-use beans
+		- `@ComponentScan("com.example")`: Scans packages for Spring components
+- **What is the purpose of using @ComponentScan in the class files**
+	- Spring boot application scans all the beans and package declarations when the application initializes
+	- You need the `@ComponentScan` annotation to your class file to scan your components added to your project
+- **How does a Spring Boot application get started**
+	- Must have a main method which serves as an entry point
+	- Invoke the `SpringApplication#run` method to bootstrap the application
+- **What is Spring Initializer**
+	- Web application that helps you create an initial spring boot project
+- **What are starter dependencies**
+	- Maven template that contains a collection of all the relevant transitive dependencies that are needed to start a particularly functionality
+	- E.g. need to import `spring-boot-starter-web` dependency for creating a web application, `spring-boot-starter-data-jpa` for database interaction using JPA, `spring-boot-starter-security` for authentication and authorization
+- **What is a bean**
+	- Beans are objects whose instantiation is manager by the application context (Spring IoC container)
+	- Can inject it as a dependency by autowiring it
+- **What is difference between @RestController and @Controller in Spring Boot**
+	- `@Controller` map the model object to view or template to make it human readable
+		- Specialization of the `@Component` annotation
+		- Marks the class as a controller in a Spring MVC application
+		- Responsible for handling incoming web requests, processing them, and returning an appropriate response
+	- `RestController` simply returns the object and object data is directly written in HTTP response as JSON or XML
+		- Combines `@Controller` and `@ResponseBody`
+		- `@ResponseBody` means that the object returned is automatically serialized into JSON and passed back into the `HttpResponse` object
+- **Difference between `@Component`, `@Respository`, `@Service`, `@Controller` annotations in Spring**
+	- `@Component`
+		- Used to denote a a class as a component
+		- Can use across the application to mark the beans as Spring's manager components
+	- `@Service`
+		- In an application, the business logic resides within the service layer 
+		- Specialization of `@Component` annotation
+		- Can only be applied to classes
+	- `@Repository`
+		- Used to indicate the class provides the mechanism for storage, retrieval, update, delete and search operations on objects
+		- Close to the DAO pattern where DAO classes are responsible for providing CRUD operations on database tables
+		- Specialization of `@Component` annotation
+		- Can only be applied to classes
+- **Difference between ApplicationContext and WebApplicationContext in Spring MVC**
+	- Spring IoC (Inversion of control) container is responsible for instantiating, wiring, configuring, and managing the entire life cycles of objects
+		- Instead of responsibility of the developer
+		- Reads configuration metadata to understand how beans should be created and wired together
+		- Uses Dependency Injection (DI) to inject dependencies into beans at runtime
+	- `BeanFactory` and `ApplicationContext` represent the Spring IoC Containers
+		- BeanFactory provides basic functionalities and is recommended to use for lightweight applications like mobile and applets
+			- Basic container that provides support for dependency injection
+			- Beans are instantiated only when explicitly requested
+		- ApplicationContext provides basic features in addition to enterprise-specific functionalities:
+			- Publishing events to registered listeners by resolving property files
+			- Methods for accessing application components
+			- Supports Internalization
+			- Loading File resources in a generic fashion
+	- `WebApplicationContext`
+		- Web-aware ApplicationContext. I.e. it has Servlet Context information
+		- In a single web application, there can be multiple WebApplicationContext
+			- Each DispatcherServlet is associated with a single WebApplicationContext
+		- Used to create web applications
+		- Deal with the web-related components such as controllers and view resolvers, which is configured using "DispatcherServlet"
+	- `ApplicationContext` 
+		- Used to create standalone applications
+		- Have to create and destroy the container objects manually
+		- Single `ApplicationContext` in an application
+		- Inject all the middle-tier beans (services, DAOs) which are instantiated using the "ContextLoaderListener" class configured in web.xml
+- **What is `ResponseEntity`**
+	- Represents the whole HTTP response: status code, headers, body
+- **What is Dispatcher Servlet in Spring**
+	- Acts as the Front Controller
+		- Any request coming into our website, the front controller will accespt the requests and figure out which controller method to handle the request
+- **How to handle service discovery in Spring Boot microservices architecture**
+	- Spring Cloud Eureka
+	- Load Balancing
+- **What is Spring Boot's `@Retryable` annotation**
+	- Allows retrying a method call in case of failure
+	- Fine tune it with exponential backoff and conditional retries
+- **How can you implement and manager custom security policies in Spring Boot for fine-grained access control**
+	- Can use `@PreAuthorize`, `@Secured`, `@RolesAllowed` to secure methods at the business logic level
+	- For custom authentication and authorization, you can extend `AuthenticationProvider` to integrate specific security protocols or external identity providers, ensuring tight control over who can access what within the application
+- **Explain how to implement event-driver microservices with Kafka or RabbitMQ in Spring Boot**
+	- Event-driven architecture enables asynchronous communication between microservices, often powered by message brokers like Kafka or RabbitMQ
+		- Enable with `@EnableKafka` annotation
+	- Kafka Integration:
+		- Spring Kafka simplifies the production and consumption of Kafka messages with `@KafkaListener` annotations
+	- This approach facilitates loosely coupled services, enabling scalability and resilience in your microservices
+- **How do you handle versioning in Spring Boot APIs**
+	- URI versioning: `/api/v1/resource`
+	- Parameter versioning: `/api/resource?version=1`
+	- Header-based versioning: through custom headers like `API-Version`
+- **What are some strategies for debugging a Spring Boot application in production**
+	- Spring Boot Actuator: provides insights into health, metrics, and environment information
+		- `env` exposes environment properties
+		- `health` shows application health information
+		- `httptrace` displays HTTP trace information
+		- `metrics` shows metrics information
+		- `loggers` shows and modifies the configuration of loggers in the application
+		- `mappings` displays a list of all `@RequestMapping` paths
+	- Logging: Use structured logging with `SLF4J` or `Logback` for better traceability
+	- Remote Debugging
+	- Heap dumps and Thread dumps
+- **What is the use of Profiles in Spring Boot**
+	- Allows us to use different configurations across different environments
+		- Can also use `application-<env>.properties` or `yml` with `spring.profiles.active` property
+- **What is Spring Actuator**
+	- An actuator helps you monitor and manage your application 
+	- Includes auditing, health, CPU usage, HTTP hits, and metric gathering
+	- Add the `spring-boot-starter-actuator` package, and `management.endpoints.web.exposure.include=*` to `application.properties`
+	- Can check health, thread information, bean information
 - **DEPENDENCY INJECTION**
+	- Process of injecting dependent bean objects into target bean objects
+	- Setter Injection: by calling the setter method
+	- Constructor Injection: by calling the target bean constructor
+	- Field Injection: via Reflection API
 - **SPRING MVC**
 - **JPA/HIBERNATE**
 - **What is a DTO**
+	- Data transfer object
+	- Used to transfer data between a client and a server or between different layers of an application
 - **RestTemplate:**
 	- TODO: look into how it works on CCMN
 	- Provided by Spring Framework that simplies the process of making HTTP requests and handling responses
 - **Authentication vs Authorization:**
 	- Authentication verifies who a user is --> i.e. input a username and password and verifying it is correct
 	- Authorization determines what they are able to access after successful authentication --> i.e. does the user have permission to view a certain page
+- **What are some common performance bottlenecks in Spring Boot applications**
+	- Database Access: Optimize queries, use pagination, and consider connection pooling
+	- Memory leaks
+	- Thread pooling: properly size thread pools for handling HTTP requests and background tasks
+	- Caching: use Spring's caching abstraction (`@Cacheable`) to reduce the load on databases
+- **How do you handle asynchronous processing in Spring Boot**
+	- `@Async` annotation: execute methods asynchronously
+	- `Executor`: use executor beans to control the threading model for asynchronous tasks
+- **Futures and CompletableFuture**
+- **Implementing caching in Spring Boot**
+	- `@Cacheable`, `@CachePut`, `@CacheEvict` 
+	- Enable caching through `@EnableCaching` annotation
+	- Define Cache Manager: Can integrate with external caches like Redis
+- **How to configure and manage Spring Boot logging in production**
+	- Logback: default logging framework; use `logback-spring.xml` for configuration
+	- External logging: integrate with logging solutions for centralizing logs
+	- Log levels: set different log levels per environment
+		- E.g. `logging.level.org.springframework=DEBUG`
+- **How to implement a custom exception handler in Spring Boot**
+	- Spring Boot provides global exception handling via `@ControllerAdvice`
+	- Also can use `@ExceptionHandler` to handle specific exceptions either on class annotated with `@Controller` or `@ControllerAdvice`
+		- E.g. `@ExceptionHandler(ResourceNotFoundException.class)`
+	- Can create a custom Exception that has a `@ResponseStatus` annotation that indicates the response HTTP status code, and a reason
+		- E.g. `@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="No such Order") // 404`
+- **Data Access Object (DAO) Design Pattern**
+	- Abstracts and Encapsulates the details of how data is saved, retrieved, updated, or deleted in a database
+		- Shields the rest of the application from the specific database implementation
+	- Centralizes all database-related code within dedicated DAO classes
+	- DAO pattern promotes code reusability by providing a set of generic methods that can be applied to different entities
+	- Benefits:
+		- Organization
+		- Consistency
+		- Maintenance Simplicity
+		- Testing Facilitation
+		- Scalability
+- **SpringBootTest**
+	- When running integration tests for Spring application, we must have an ApplicationContext
+	- We can annotate with `@SpringBootTest` to create an ApplicationContext from configuration classes indicated by its classes attribute
+	- If classes attribute not set, Spring Boot searches for the primary configuration class 
+		- Starting from the package containing the test until it finds a class annotated with `@SpringBootApplication` or `@SpringBootConfiguration`
+- **Which embedded servers does Spring Boot Support, and how to change the default?**
+	- Spring MVC supports Tomcat, Jetty, and Undertow
+	- Tomcat is the default application server supported by Spring Boot's web starter
+	- In order to change it, exclude `spring-boot-starter-tomcat` dependency in `spring-boot-starter-web` and include the dependency you want e.g. `spring-boot-starter-jetty`
+- **What is a servlet container**
+	- Provides an environment where the Java Servlets are executed
+		- Creates a new thread for each incoming request
+		- Also manages user sessions through cookies or URL rewriting to store session information
+		- Also provides security features such as authentication, authorization, and secure communication (SSL/TLS) and allowing the developer to protect sensitive resources or user data
+	- Servlets are the server side Java programs that can handle requests and generate the responses
+- **Spring Boot Scopes**
+- **Spring Boot validation**
+	- `spring-boot-starter-validation`
+	- Provides validation annotations that can be put on fields in classes
+		- E.g. `@NotBlank`, `@Size`, `@Min`, `@Max`, `@Email`
+	- Need to have `@Valid` annotation in the request parameter that you want to validate against
+		- E.g. `public ResponseEntity<String> registerUser(@Valid @RequestBody User user)`
+- **`@Primary` and `@Qualifier`**
+	- Incase of ambiguity, `@Primary` tells Spring Boot to use that bean as the primary bean
+	- Otherwise can use `@Qualifier` annotation in order to specify the specific bean you want to use
+	- `@Qualifier` takes priority over `@Primary`
+- **Other frequently used annotations**
+	- `@Import({ConfigClass.class})`: imports another configuration class
+	- `@Lazy`: postpones bean initialization until it is first accessed
+	- `@Scope("prototype")`: Defines bean scope (singleton, prototype, etc.)
+	- `@PropertySource("classpath:app.properties")`: Loads external property files
+	- `@Async`: marks a method for asynchronous execution
+	- `@RequestBody`: Converts request body to Java objects
+	- `@RequestParam`: binds query parameters
+	- `@PathVariable("id")`: extracts values from URLs
+	- Caching:
+		- `@EnableCaching`, `@Cacheable("cacheName")`, `@CachePut("cacheName")`, `@CacheEvict("cacheName")`, `@CacheConfig(cacheNames={"defaultCache"})`
+		- `@Cacheable` skips the method execution, while `@CachePut` annotation runs the method and puts its result in the cache
+	- `@ConfigurationProperties`
+		- used to map external properties to Java objects
+	- `@CrossOrigin`
+		- To enable CORS in Spring Boot
+		- E.g. `@CrossOrigin(origins = "*")`
+- **What is Spring Boot DevTools**
+	- Module that enhances development by enabling:
+		- Automatic application restarts when code changes
+		- LiveReload support for UI updates
+		- Configurable properties to disable caching
+- 

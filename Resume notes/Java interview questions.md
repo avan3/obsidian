@@ -3,12 +3,14 @@
 	- Does not need to be instantiated to use the property or method
 	- Only one instance of that property or method, cannot have multiple instances
 	- Cannot override a static method in Java
+	- Cannot use `this` or `super`
 - **Class vs Object**
 	- Class is a user-defined data type that can be used to create an object. It includes properties and methods. It is essentially a blueprint for creation of an object
 	- An Object is an instance of the class 
 - **Interface vs Abstract class**
 	- Abstract classes is a class that can contain both abstract methods (methods without implementation) and concrete methods 
 		- Can only extend from one abstract class
+		- Cannot be instantiated
 	- Interface has no concrete methods, only abstract methods 
 		- Class implement from multiple interfaces
 - **Pass by value vs Pass by reference**
@@ -29,15 +31,20 @@
 	- Local variable: declared within a code block such as a method 
 	- Instance variables: declared inside a class but outside of a method
 	- Class variables: declared with the static keyword in a class, but outside a method, constructor or code block
-- **Synchronized keyword**
-	- 
 - **Autoboxing vs Unboxing**
 	- Conversion between primitive types and their corresponding object wrapper classes
 - **Widening vs Narrowing**
 	- Widening is when you pass a smaller data type into a larger size type
 	- Narrowing is the opposite
+- **What are wrapper clases**
+	- Provide object representation of primitive data types, such as Integers, Doubles, Booleans
+	- Allow primitives to be used in collections and provide useful utility methods
 - **Transient and Volatile**
-	- 
+	- Transient keyword excludes fields as serialization
+		- Implement `writeObject()` and `readObject()` methods to control serialization
+		- Extend `NotSerializableException` to explicitly prevent serialization
+	- Volatile
+		- 
 - **Characteristics of OO programming languages**
 	- Abstraction
 		- Hiding away information, and only exposing what is necessary
@@ -52,7 +59,9 @@
 		- Multiple classes are able to use the same method name
 		- Overloading vs Overriding:
 			- Overloading is defining multiple methods with the same name but different parameters within the same class
+				- **Compile time polymorphism** 
 			- Overriding is when a subclass has it's own implementation and overrides the implementation by the superclass
+				- **Runtime polymorphism** - Dynamic method dispatch
 - **Memory leaks in Java**
 	- Memory leak is when an object or objects is no longer used but cannot be removed by the garbage collector. This can lead to performance degradation, running out of memory
 	- E.g. not closing a connection to a database, or not closing an input stream
@@ -64,12 +73,14 @@
 	- Provides a default project structure, and pom.xml (**Project Object Model** config file which includes information about the project (including groupId, artifactId), versioning, dependencies, plugins)
 - **GRADLE**
 - **Garbage collection**
+	- Free up the memory space occupied by the unnecessary and unreachable objects during the Java program execution by deleting those unreachable objects
+		- Ensures memory resource is used efficiently
 	- Process by which Java programs perform automatic memory management
 		- When Java program runs on JVM, objects are created on the heap.
 		- Garbage collection looks at the heap and identifies the objects which are in use and which are not and deleting the unused objects
 			- Unused means the application does not maintain a pointer to that object
 		- A used object, or referenced object, means that some part of your program still maintains a pointer to that object
-	- Mark-and-Sweep GC algorithm:
+	- **Mark-and-Sweep** GC algorithm:
 		- Mark phase:
 			- Marks unreferenced objects mark bit to 0, while referenced objects mark bit is set to 1
 		- Sweep phase:
@@ -78,8 +89,8 @@
 		- Minor or incremental: occurs when unreachable objects in the younger heap are removed
 		- Major or full: occurs when the objects that survived the minor garbage collection are copied to the old generation or permanent generation heap memory are removed (occurs less frequently)
 	- How to make an object eligible for garbage collection:
-		- Nullify the reference variable:
-		- Re-assigning the reference variable:
+		- Nullify the reference variable
+		- Re-assigning the reference variable
 		- An object created inside the method: object reference is garbage collected after method execution?
 		- Island of isolation: objects that are referenced by each other but not in any other part of the application
 	- Can manually run garbage collection:
@@ -111,14 +122,20 @@
 				- In a map, there shouldn’t be duplicate keys but if you pass in multiple objects with the same key and the equals() method is not implemented correctly, can increase the memory (will not know it’s a duplicate object and keep putting in the object into the map thereby increasing memory)
 - **Synchronization:**
 	- Synchronized keyword: used to specify that a code block can only have one thread executing at a time. Other threads attempting to execute that coed block are blocked until the thread currently executing exits the code block
+	- Lock is on object itself. If it is a static method, the lock is on the class
 - **What is static keyword?**
 	- Adding the static keyword to a variable or method means that variable/method belongs to the type/class itself rather than the instance of the type/class
 	- When declaring a field static, exactly one copy of that field is created and shared among all instances of that class
-	- **Static methods cannot be overridden**
+	- **Static methods cannot be overridden, but can be overloaded**
+		- Cannot be overriden because static methods are loaded and looked up at compile time, and overriding occurs at runtime. 
 	- Abstract methods cannot be static
 	- Static methods can’t use this or super keywords
 	- **Static methods can only access static fields**
 	- **Static methods can’t access instance variables and instance methods directly. They need some object reference to do so**
+- **Static methods, variables and classes**
+	- Methods and variables belong to the class of the java program, not to the object of the class
+		- E.g. Math.max()
+	- Classes cannot be static except if it is the inner class. If it is, then it works exactly like other static members of the class
 - **Final vs finally vs finalize:**
 	- Final (keyword): cannot modify its value. Also, cannot be overridden by a subclass
 	- Finally (block) is the block in the try catch block that always executes at the end
@@ -139,4 +156,297 @@
 		- E.g. Only giving certain users READ access
 	- Don't log sensitive information
 	- Hash User Passwords
+- **Multithreading**
+	- Having multiple threads of execution inside the same application
+	- A thread is like a separate CPU executing your application
+	- Multithreaded application is like an application that has multiple CPUs executing different parts of the code at the same time
+		- E.g. while IO is reading two files, and then CPU needs to process both, can read the second while while processing the first file
+		- Network and disk IO is often a lot slower than CPU's and memory IO
+	- Benefits:
+		- Better utilization of a single CPU or multiple CPUs or CPU cores
+			- If one thread is waiting for the response to a request sent over the network, then another thread could use the CPU in the meantime to do something else
+		- Better user experience with regards to responsiveness
+			- When the request is being sent over the network, the user might experience the UI "hanging" while the GUI thread is waiting for the response
+			- With multithreading, the thread is free to respond to other user requests in the meantime while processing the requests at the same time
+		- Better user experience with regards to fairness
+			- If there was only one thread, then other clients have to wait on other clients requests especially if it takes a long time
+			- With multiple threads, clients requests can be executed on its own thread so no single task can monopolize the CPU completely
+	- Challenges:
+		- More complex design
+			- Errors can arise from incorrect thread synchronization and can be very hard to detect, reproduce, and fix
+		- Context switching
+			- CPU needs to save the local data, program pointer of the current thread and load the local data, program pointer of the next thread to execute
+				- Switches from executing in the context of one thread to executing in the context of another
+		- Increased resource consumption
+			- Threads need some resources from the computer in order to run 
+			- Creating more threads means more resources used
+		- Threads are executing within the same program and are hence reading and writing the same memory simultaneously
+	- **Concurrency model**
+		- Specifies how threads in the system collaborate to complete the tasks they are given
+		- Similar to distributed systems
+		- **Shared state concurrency model**
+			- Assumed that multiple threads executing within the same application would also share objects (or state)
+			- When threads share state, problems like race conditions and deadlock may occur
+		- **Separate State**/**Share nothing**
+			- Threads do not share any objects or data
+			- So threads need to communicate by either exchanging immutable objects among them, or by sending copies of the objects (or data) among them
+		- **Parallel workers model**
+			- Incoming jobs are assigned to different workers through a delegator
+			- Can be designed to use both shared state or separate state
+			- Advantages:
+				- Easy to understand
+				- To increase parallelization, you just add more workers
+			- Disadvantages:
+				- Shared state can get complex
+					- Some of the shared state is in communication mechanisms like job queues
+				- Threads need to access the shared data and avoid race conditions, deadlocks and make sure the changes made by one thread are visible to the others (i.e. consistency)
+				- Part of the parallelization is lost when threads are waiting for each other when accessing the shared data structures
+					- Can reduce contention and increase performance through non=blocking concurrency algorithms
+- **Explain the use of the final keyword in variable, method, and class**
+	- **Final Variable**
+		- The value cannot be modified once it has been assigned
+	- **Final method**
+		- Cannot be overriden by its children classes
+		- Cannot use final keyword for constructors
+	- **Final class**
+		- No class can be inherited from the class declared as final
+- **Is it possible that the `finally` block will not be executed?**
+	- Yes, in the cases of `System.exit()` in the above statement, or if there are fatal errors like stack overflow, memory access error, etc.
+- **Why is the main method static in Java**
+	- JVM calls the main method via the class itself not the object
+		- Allows program to start execution without object instantiation 
+	- Must be only 1 main method because that acts as an entry point to code execution
+	- If no static keyword, then there will be a `NoSuchMethodError` thrown at runtime
+- **What is a ClassLoader**
+	- Program that belongs to JRE
+	- Loads the required classes and interfaces to the JVM when required during runtime
+	- Two Main functions:
+		- Load classes: different built-in and custom class loaders load classes
+		- Locate Resources: A resource is some data such as a .class fil, configuration information, or an image
+	- Three types:
+		- Bootstrap class loader
+			- Virtual machines built-in class loader, represented as `null`
+			- Loads the initial classloaders
+			- Part of the core JVM and written in native code
+		- Platform class loader
+			- Child of bootstrap class loader which takes care of l;oading the standard core Java classes
+			- Loads the platform classes, which include the Java SE platform APIs, their implementation classes, and JDK-specific run-time classes
+			- Platform class loader is the parent of the system class loader
+		- System class loader
+			- Application class loader
+			- Loads classes on the application class path, module path, and JDK-specific tools
+	- Delegation model
+		- ClassLoader class delegates the search for a class or resource to its parent class loader before it tries to find the class or resource itself
+		- System class loader --> platform class loader --> bootstrap class loader
+- **What is the classpath, module path**
 	- 
+- **Shallow vs Deep copy**
+	- Shallow creates a new references and points to the same object
+		- In Java, it seems that a new instance is created but copies the values over
+		- Since the references are the same, then updating values in the new object will update the original object as well
+	- Deep copy creates a new object and copy the old object value to the new object
+- **How to implement pagination in Spring Boot**
+	- Pagination is dividing a document into distinct pages
+	- Facilitates faster loading, smoother navigation, and bandwidth conservation
+	- Improves server performance, aids in SEO, and is essential for scalability, ensuring effective management of large datasets
+	- Repository:
+		- JpaRepository
+		- `Page<T> findAll(Pageable pageable);`
+			- Pageable interface contains pagination information
+				- Methods such as `getPageNumber()`, `getPagerSize()`, `getSort()`
+			- Page interface contains information about its position in the entire list, and the items in the list itself
+	- Service
+		- `Page<PromotionDto> getAll(int page, int size);`
+- **What is Functional Interface**
+	- An interface that contains only one abstract method
+	- Use `@FunctionalInterface` annotation to ensure functional interface cannot have more than one abstract method
+	- Can include Consumer, Predicate, Supplier, Function
+- **Fail-fast and Fail-safe iterations in Java Collections**
+	- **Fail-safe iterators** means they will not throw any exception even if the collection is modified while iterating over it
+		- E.g. `java.util.concurrent` package such as `ConcurrentHashMap`
+		- **ConcurrentHashMap**
+			- Thread-safe implementation of the map interface (no need to synchronize the whole map)
+			- Allows multiple threads to read and write simultaneously, without the need for locking the entire map
+			- Locking is at much finger granularity at the hashmap bucket level
+			- Key cannot be NULL
+			- Advantages:
+				- Thread-safe
+				- Fine-grained locking
+				- Atomic operations
+				- High perforamnce
+			- Disadvantages
+				- Higher memory overhead
+				- Complexity
+	- **Fail-fast iterators** throw an exception (*ConcurrentModificationException*) if the collection is modified while iterating over it
+		- E.g. Default iterators from `java.util` package such as `ArrayList`, `HashMap`
+- **Java HashMap**
+	- Map that has key value mapping or pairs --> every key is mapped to exactly one value and we can use the key to retrieve the corresponding value from the map
+	- Has O(1) time complexity to insert and retrieve a value
+	- Space complexity: O(n)
+	- If you insert a value with the same key, you will get the latest inserted value
+	- Hash map allows null as the key
+	- O(1) complexity to check if a key exists, but O(n) complexity to check if a value exists because every value will need to be looped over
+	- Can iterate by keyset(), entrySet(), or values()
+	- It is important to implement the equals() and hashCode() methods if you are planning on using a class as a key
+	- Internals:
+		- Instead of iterating over elements, it calculates the position of the value based on its key
+		- Stores elements in so-called buckets and the number of buckets is called capacity
+		- When reached 0.75 threshold (load factor), the capacity will increase --> higher value decreases the space overhead (less wasted space/buckets) but increases the lookup cost
+		- **When we put the value in a map, the keys hashCode() method is used to determine the bucket in which the value will be stored**
+		- To retrieve the value, the hashCode() method calculates the bucket which the value is stored in
+		- Then iterates through the objects found in the bucket using the keys equals() method to find the exact match
+		- ![[Pasted image 20250502210436.png]]
+		- Must use immutable keys. If it was mutable, the hashmap would not know how to retrieve the value (hashmap is searching in the wrong bucket because it is using the wrong key)
+		- If different keys use the same hashcode, it will put the values in the same bucket and finding the correct value will need to iterate over the bucket --> this is O(n) time complexity
+- **Java Hash Table**
+	- Data structure that associates specific keys with corresponding values
+	- Implemented with an associate array to store the data
+	- They use a hash function to compute which point of the array the data should be stored (the index)
+	- **Collisions**
+		- Hash functions map variable length keys to fixed length indexes (infinite sets to finite ones)
+		- Collisions means the hash function mapped multiple required keys to the same index and consequently the same memory bucket of the table
+		- Solutions:
+			- Separate Chaining: supports linked lists in the memory buckets of a hash table
+			- Linear probing: finding the first following index to the determined one that has a free memory bucket to insert the data
+			- Resize and copy: resizes the hash table and redistributes the data on it when a collision occurs
+- **Java Hash Table vs Hash Map**
+	- **Synchronization**: Hash Table is thread-safe and can be shared between multiple threads, while hash map is not synchronized and uses less memory
+	- Null values: hash map allows null as key as well as null as values, while hash tables do not
+	- Iteration: hash map uses iterator, hash table uses enumerator 
+		- Iterator is a successor of enumerator, and is a fail-fast iterator (throws a *ConcurrentModificationException* when underlying collection is modified while iterating)
+- **ClassLoader**:
+	- Responsible for **loading Java classes dynamically to the JVM** during runtimes
+	- Types:
+		- Application:
+			- Loads own files in the classpath
+		- Extension:
+			- Loads classes that are an extension of the standard core Java classes
+		- Bootstrap:
+			- Parent of all the others (written in native code, not Java, does not show up as a Java class)
+- **Widening Primitive Conversion** in Java:
+	- **STRINGS INTO UNICODE VALUE (INTEGER)**
+	- When using double quotes around a letter, it is treated as a string but when we use a single quote around a letter, it can be treated as an integer.
+	- I.e. it is converted to its Unicode value
+- **StringBuilder vs StringBuffer**:
+	- Strings are normally immutable
+	- Objects of StringBuilder and StringBuffer are mutable
+	- StringBuffer methods are synchronized (can be shared by multiple threads in the application) while StringBuilder are not
+		- StringBuffer is thread-safe, Stringbuilder is not
+	- Why use StringBuilder instead of Strings?
+		- Since Strings are immutable, if you have to add something to a string, a new String object gets created and the one one gets thrown away. This can be expensive
+		- Stringbuilder is mutable so it doesn't create a new object every time --> Uses dynamic array for implementation
+- **Some Java best practices:**
+	- Proper naming conventions (e.g. camel case, constants are uppercase separated by underscores)
+	- Order class members by access modifiers
+	- Class members should be accessed privately
+	- Underscores for lengthy numeric literals
+	- Never leave a catch block empty
+	- Use StringBuilder or StringBuffer for String concatenation
+	- Handle null pointer exceptions
+	- Use floats instead of doubles unless you need more precision
+	- Avoid memory leaks
+	- Return empty collections instead of returning null
+- **Java Primitive types and default**
+	- `byte`, `short`, `int`: 0
+	- `long`: 0L
+	- `float`: 0.0f
+	- `double`: 0.0d
+	- `char`: '\u0000' (null character)
+	- `boolean`: false
+- **JVM, JRE, JDK**
+	- JVM (Java Virtual Machine)
+		- Responsible for executing Java bytecode by converting it to machine code specific to the operating system
+		- Performs main tasks:
+			- Loads code
+			- Verifies code
+			- Executes code
+			- Provides runtime environment
+		- Comes with JIT compiler
+	- JRE (Java Runtime Environment)
+		- Set of tools that allow Java program to run
+		- Provides a set of libraries and other files used by the JVM at runtime
+		- Does not contain tools for developer such as debugger, compiler
+		- Contains important package classes such as math, util, lang, awt
+	- JDK (Java Development Kit)
+		- Software development kit that is used to develop Java applications
+		- Contains JRE and development tools
+		- Contains a private JVM and other resources:
+			- Interepreter/loader (java)
+			- Compiler (javac)
+			- Archiver (jar)
+			- Documentation generator (Javadoc)
+- **Why is Java platform-independent**
+	- Java achieves platform independence through bytecode
+	- Java compiler converts code into bytecode, which JVM interprets for the underlying OS making Java write-once, run anywhere
+- **Throw vs Throws keyword**
+	- Throw: used to explicitly throw an exception
+	- throws: declares that a method may throw an exception
+- **What is a singleton class in Java and how can we make a class singleton?**
+	- Singleton class is a class whose only one instance can be created at any given time.
+	- How to create?
+		- Make constructor for class private
+		- Add a static instance of the class inside the class
+		- Add a public static method to get the instance to return the instance or create a new instance if it does not exist
+	- Why?
+		- Limits the creation of certain classes where they may only require one instance (e.g. database connection)
+- **What is a package in Java**
+	- Collection of related classes and interfaces grouped to organize code and prevent naming conflicts
+	- E.g. 
+		- Built-in packages: java.lang, java.util, etc.
+		- User-defined package --> use package keyword in order to create a package
+- **What is coercion in Java**
+	- Automatic or explicit conversion of one data type into another
+	- Implicit coercion: automatically convert smaller data types to larger ones (e.g. `int` to `double`)
+	- Explicit coercion (casting): converts larger data types to smaller ones using type casting (e.g. `(int) 3.14`)
+- **What are the phases in the lifecycle of a thread in Java**
+	- New: thread is created but has not started executing
+	- Runnable: thread is ready to run and waiting for CPU allocation
+	- Blocked: thread is waiting for a resource or lock to be available
+	- Waiting thread is indefinitely waiting for another thread to notify it
+	- Timed waiting: thread waits for a specified time (e.g. using `Thread.sleep()`)
+	- Terminated: thread has completed execution or stopped due to an error
+- **Java Thread priorities**
+	- Range from `MIN_PRIORITY` (a constant of 1) and `MAX_PRIORITY` (a constant of 10). By default, every thread is given `NORM_PRIORITY` (a constant of 5)
+	- Higher priority threads are more important to a program and should be allocated processor time before lower-priority threads. However, thread priorities cannot guarantee the order in which threads execute and are very much platform dependent
+- **Thread.join()**
+	- Joining threads in Java refers for waiting (or blocking) a thread until another thread finishes its execution
+	- Used to maintain an order for tasks running
+- **Default keyword in methods on Java interfaces**
+	- Allows method to have an implementation in an interface
+	- Promotes reusability
+	- If default keyword used as access modifier: can only be accessible within the same package
+	- Allows for backwards compatibility
+		- Classes that implement the method won't have to create a implementation of the new method
+		- They will continue to work 
+	- Cannot have conflicting names if want to implement two interfaces
+- **Java Memory Model**
+	- Defines how threads interact with memory and ensures visibility, ordering, and atomicity of shared data in multi-threaded environment
+		- Controls how variables are read/written across threads
+		- Ensure happens-before relationships to prevent race conditions
+		- Uses volatile, synchronized, and locks for thread safety
+- **Java Streams**
+	- Functional programming approach to processing data efficiency
+	- Uses methods such as filtering, mapping, reducing collections 
+	- Use lazy evaluation for optimized execution
+- **Reflection**
+- **What is Constructor chaining**
+	- Calling a constructor of a class inside another constructor
+- **Composition vs Aggregation**
+	- Composition and Aggregation help to build (Has-A- Relationship) between classes and objects
+	- Composition has a strong association between the containing object and the objects within
+		- If the container is destroyed, the containing objects is also destroyed
+	- Aggregation has a weak association between the containing object and the objects within
+		- If the container is destroyed, the containing objects is not destroyed
+- **Servlet Container**
+	- Component of Java web servers or application servers that provide runtime environment for the Java Servlets to operate
+		- Handle requests and generate responses
+		- Concurrency: Creates a new thread for each incoming request
+		- Security: Provides features like authentication, authorization, and secure communication (SSL/TLS), and allowing the developers to protect the sensitive resources or user data
+		- Session management: Tracking users across multiple requests through cookies or URL rewriting to store session information
+	- E.g. Apache Tomcat, Jetty, Undertow
+	- Has components:
+		- `HttpServletRequest` and `HttpServletResponse` objects only live between one servlet call
+		- `HttpSession` lives as long as it's active and hasn't timed out
+		- `ServletContext` lifespan is the longest
+			- Born with the web application and gets destroyed only when the application itself shuts down
+			- 
