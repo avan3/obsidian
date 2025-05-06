@@ -491,4 +491,5 @@
 		- Caused by logical errors, programming bugs
 		- Do not need specific handling
 		- E.g. `NullPointerException`, `ArrayIndexOutOfBoundsException`
-	- 
+- https://www.tutorialspoint.com/java/java_thread_pool.htm
+- https://www.baeldung.com/thread-pool-java-and-guava
