@@ -39,12 +39,21 @@
 - **What are wrapper clases**
 	- Provide object representation of primitive data types, such as Integers, Doubles, Booleans
 	- Allow primitives to be used in collections and provide useful utility methods
-- **Transient and Volatile**
+- **Transient and Volatile and Atomic**
 	- Transient keyword excludes fields as serialization
 		- Implement `writeObject()` and `readObject()` methods to control serialization
 		- Extend `NotSerializableException` to explicitly prevent serialization
 	- Volatile
-		- 
+		- Mark a Java variable as "being stored in the main memory"
+		- Every thread that accesses a volatile variable will read it from main memory and not from the CPU cache
+		- All threads see the same value for the volatile variable 
+			- Is associated to visibility 
+	- Atomic
+		- Atomicity refers to an operation being indivisible
+		- Hides a process from other threads until it's been completed, making it appear as if it's been accomplished in one step and preventing other threads from interfering in the process
+		- Thread-safe
+		- E.g. AtomicInteger
+			- Ensures value is incremented by multiple threads and value is updated correctly
 - **Characteristics of OO programming languages**
 	- Abstraction
 		- Hiding away information, and only exposing what is necessary
@@ -408,9 +417,27 @@
 - **Java Thread priorities**
 	- Range from `MIN_PRIORITY` (a constant of 1) and `MAX_PRIORITY` (a constant of 10). By default, every thread is given `NORM_PRIORITY` (a constant of 5)
 	- Higher priority threads are more important to a program and should be allocated processor time before lower-priority threads. However, thread priorities cannot guarantee the order in which threads execute and are very much platform dependent
+- **InterruptedException vs ExecutionException**
+	- InterruptedException
+		- When a thread is interrupted while it's waiting, sleeping, or otherwise occupied i.e. some code has called the `interrupt()` method on our thread
+			- Is a checked exception
+		- Interrupt signals a thread to pause its current activity and handle the interruption, typically by stopping or switching tasks
+			- Crucial to handle interrupts properly to avoid issues like deadlocks
+			- Strategies to handle:
+				- Propagate the exception
+				- Restore the interrupted status (e.g. `return thread1.isInterrupted()` --> code higher up the call stack can see that an interrupt was issued
+				- Custom exception handling
+	- ExecutionException
+		- 
 - **Thread.join()**
 	- Joining threads in Java refers for waiting (or blocking) a thread until another thread finishes its execution
 	- Used to maintain an order for tasks running
+- **Object.wait()**
+	- To suspend a thread
+	- Causes the current thread to wait indefinitely until another thread either invokes `notify()` for this object or `notifyAll()`
+- **Object.notify()**
+	- To wake a thread up
+	- Notifies any one of them to make up arbitrarily
 - **Default keyword in methods on Java interfaces**
 	- Allows method to have an implementation in an interface
 	- Promotes reusability
@@ -449,4 +476,19 @@
 		- `HttpSession` lives as long as it's active and hasn't timed out
 		- `ServletContext` lifespan is the longest
 			- Born with the web application and gets destroyed only when the application itself shuts down
-			- 
+- **Model, View, Controller (MVC)**
+	- Model: Object or collection of objects which contain the data of the application
+	- View: used for displaying the information to the user in a specific format. E.g. `thymeleaf`
+	- Controller: logical part of the application
+- **Checked vs Unchecked exceptions**
+	- Checked: Exceptions are checked at compile time, forcing the programmer to handle them explicitly
+		- Derive from `Exception` class
+		- Caused by file I/O and database connection issues
+		- Must be handled by a try-catch block
+		- E.g. `IOException`, `SQLException`, `FileNotFoundException`
+	- Unchecked: Exceptions are checked at runtime and do not require explicit handling at compile time
+		- Derived from `RuntimeException` class
+		- Caused by logical errors, programming bugs
+		- Do not need specific handling
+		- E.g. `NullPointerException`, `ArrayIndexOutOfBoundsException`
+	- 

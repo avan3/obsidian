@@ -1,7 +1,9 @@
 - **What does the @SpringBootApplication annotation do internally?**
 	- The @SpringBootApplication annotation is equivalent to using `@Configuration`, `@EnableAutoConfiguration`, and `@ComponentScan` with their default attributes
 		- `@EnableAutoConfiguration`: Enables Spring Boot's auto-configuration
-			- Automatically configures components based on classpath dependencies
+			- Autoconfigures the application context, the included dependencies such as Tomcat, Spring MVC, Spring Security (if included)
+			- Automatically configures components based on classpath dependencies, included by jar, or beans defined by us in the application
+			- Scans all sub packages and classes if used at the root
 			- Reduces manual configuration and provides ready-to-use beans
 		- `@ComponentScan("com.example")`: Scans packages for Spring components
 - **What is the purpose of using @ComponentScan in the class files**
@@ -21,7 +23,7 @@
 - **What is difference between @RestController and @Controller in Spring Boot**
 	- `@Controller` map the model object to view or template to make it human readable
 		- Specialization of the `@Component` annotation
-		- Marks the class as a controller in a Spring MVC application
+		- Marks the class as a Spring Bean in a Spring MVC application
 		- Responsible for handling incoming web requests, processing them, and returning an appropriate response
 	- `RestController` simply returns the object and object data is directly written in HTTP response as JSON or XML
 		- Combines `@Controller` and `@ResponseBody`
@@ -174,6 +176,26 @@
 		- Also provides security features such as authentication, authorization, and secure communication (SSL/TLS) and allowing the developer to protect sensitive resources or user data
 	- Servlets are the server side Java programs that can handle requests and generate the responses
 - **Spring Boot Scopes**
+	- Can specify with the `@Scope` annotation
+	- Scopes:
+		- Singleton
+			- Creates a single instance of the bean
+		- Prototype
+			- Will return a different instance every time it is requested from the container
+		- Request
+			- Creates a bean instance for a single HTTP request
+			- Also need to add a proxyMode attribute with `ScopedProxyMode.TARGET_CLASS` since there is no active request at the moment of instantiation of the web application context
+		- Session
+			- Creates a bean instance for an HTTP session
+			- Also requires proxyMode
+		- Application
+			- Creates a bean instance for the lifecycle of a ServletContext
+			- Also requires proxyMode
+			- Shared across multiple servlet-based applications running in the same ServletContext
+		- Websocket
+			- Creates for a particular Websocket session
+			- Also requires proxyMode
+	- Last 4 are available in a web-aware application
 - **Spring Boot validation**
 	- `spring-boot-starter-validation`
 	- Provides validation annotations that can be put on fields in classes
@@ -198,6 +220,7 @@
 		- `@Cacheable` skips the method execution, while `@CachePut` annotation runs the method and puts its result in the cache
 	- `@ConfigurationProperties`
 		- used to map external properties to Java objects
+		- E.g. `@ConfigurationProperties(prefix="dev")` --> `dev.name=DevelopmentApplication` in application.properties
 	- `@CrossOrigin`
 		- To enable CORS in Spring Boot
 		- E.g. `@CrossOrigin(origins = "*")`
