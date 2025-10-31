@@ -3,7 +3,7 @@
 	- The main focus in my career so far has been full stack development mainly in Angular and Typescript, and Spring Boot and Java. 
 	- Over the years, I have worked on web applications that were either customer facing, or used by internal employees where we had opportunities to fix bugs or develop features based on feedback from the customers or users. 
 	- At TD specifically, I also had opportunities to take on larger projects such as the modernization of the UI of our application from AngularJS to Angular 12 (update of the Angular framework version), and I am currently leading the migration of one of our applications to Microsoft Azure.
-	- In the roles I've worked in, I would work collaboratively with other developers, QA testers, Product Owners, Project Managers and Scrum Masters in an Agile environment.
+	- In the roles I've worked in, I would work collaboratively with other developers, QA testers, UI/UX Designers, Product Owners, Project Managers and Scrum Masters, BSAs in an Agile environment.
 	- I believe one of my strongest qualities is my work ethic. I always strive to work hard for whatever work I do to make meaningful contributions for my team, and if I’m tasked with something I do not know how to do, I will make sure to find out how to do it. I know my commitment to my work ethic will carry over to U of T should I be hired.
 - **Tell me about a time you faced a difficult technical challenge. How did you approach it?**
 	- About a year ago, we faced a production incident where some users were having trouble logging in to our application. This was after the decommissioning of Enterprise Directory (ED). 
@@ -14,7 +14,7 @@
 	- There were suggestions of QE team generating the data, or bringing data from PROD to PAT environment and updating the sensitive information. However, due to timeline and effort constraints, we could not proceed with that.
 	- After the first deployment in PROD, the issue was not resolved. At some point, we also had to revert the ED decommission changes.
 	- In order to test the limit of the AD group search, I found an AD group that I suspected would have a lot of users. 
-	- I was also able to arbitrarily set a number as the limit to mimic the behaviour of PROD with the suspected limit of 1500. 
+	- I was also able to arbitrarily set a number as the limit (< # of users in the AD group) to mimic the behaviour of PROD with the suspected limit of 1500. 
 	- From this, I was able to figure out how the AD group search changes based on the limit, and we were able to come up with a way to iterate as many times as necessary in order to search all the users in the AD group despite the 1500 search limit
 - **Describe a situation where you had to make a trade-off between speed and code quality**
 	- Currently, we are migrating our application to Azure
@@ -80,3 +80,4 @@
 		- Normally, there would be levels of nesting and that can be used recursively to generate the breadcrumbs
 	- After developing the original solution, which wasn't ideal and involved way more complexity than necessary, I suggested to my Product Owner that we rework the routing which would then have an impact on the URL, but would make it easier to generate the breadcrumbs.
 	- He agreed to the solution and I was able to rework the breadcrumbs and have the routing nested more which aligns more with our app. 
+	- The reason this is a major change, in my opinion, is because many users may have bookmarked the pages in the application. And this change would break those saved bookmarks

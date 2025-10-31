@@ -16,12 +16,22 @@
 	- Are declarative which provide support for passing messages between publishers and subscribers in your application
 	- Used for event handling, asynchronous programming, and handling multiple values
 	- In this case, you define a function for publishing values, but it is not executed until a consumer subscribes to it. The subscribed consumer then receives notifications until the function completes, or until they unsubscribe.
+	- "Producer" of data
+	- Has `.subscribe` method
 - **What is an observer**
 	- Is an interface for a consumer of push-based notifications delivered by an observable
 	- ![[Pasted image 20250407133506.png]]
+	- "Consumer" of data
+	- Has `.next` method
 - **What is subscribing**
 	- An observable instance begins publishing values only when someone subscribes to it
 	- Receiving notifications from the observable
+	- Subscription is the execution of an observable
+- **Operators**
+	- Are pure functions that enable functional programming style of dealing with collections with operations like map, filter, concat, reduce, etc.
+- **Push vs Pull**
+	- Push: producer determines when to send data to the consumer
+	- Pull: consumer determines when it receives data from the data producer
 - **Difference between Promise and Observable**
 	- Promise:
 		- Build-in JavaScript object representing a value that will be available in the future
@@ -49,7 +59,7 @@
 	- Filtering streams
 	- Composing multiple streams
 - **What happens if you do not supply handler for the observer**
-	- If yo do not supply a handler for a notification type, the observer just ignores notifications of that type
+	- If you do not supply a handler for a notification type, the observer just ignores notifications of that type
 - **What are reducers in NgRX**
 	- Reducers are pure functions that are responsible for handling transitions from one state to the next state in your application
 	- Reducers handle these transitions by determining which actions to handle based on the actions type

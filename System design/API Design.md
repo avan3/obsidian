@@ -1,0 +1,60 @@
+- Should only spend 5 minutes in API Design (be concise!)
+- What is an API?
+	- APIs enable two software components to communicate with each other using a set of definitions and protocols
+- Different kinds of protocols:
+	- REST - usually use this
+	- GraphQL (allows users to query exactly what they need)
+	- RPC (microservices - internally server to server)
+	- There is also websockets - open connections between client and server
+- REST
+	- Revolve around resources
+	- Use plural nouns for the endpoints (e.g. /events)
+	- Path parameters are used to identify the resource you want to request
+	- Query parameters are optimal filters (?city=LA&date=2025-01-01)
+	- Request body (use for POST, PUT)
+	- Response:
+		- Status code (i.e. 2xx, 3xx, 4xx, 5xx)
+		- Response body
+	- Stateless - every request is independent
+	- Everything is treated as a resource
+- GraphQL
+	- Solved the problem of multiple REST endpoints giving data that the client needs or one endpoint that gives a huge payload
+	- GraphQL has a single payload where the client can query what data they need
+	- Still running over HTTP --> with POST endpoint
+		- The GraphQL query is the body
+	- Common problem with GraphQL is the n + 1 problem:
+		- If it has to get the top 100 events, and then you also need to get their associated venue and tickets. In order to get the first 100 events is easy, then we need to take those associated event ids and get the venues and tickets
+		- Solved with batching or data loader which groups the needed data together in one query instead of multiple queries
+	- Another difference to REST is security:
+		- REST secures at endpoint level
+		- GraphQL can secure at field level
+			- Handled by the schema resolver
+- RPC
+	- Built for service-to-service communication
+	- More efficient than REST especially when using binary protocols like gRPC
+	- Modelled around calling methods directly on a service
+		- Almost like making a local function call but over the network
+		- E.g. instead of `GET /events/123 --> getEvent(eventId: "123")`
+	- RPC doesn't have to deal with HTTP overhead. REST deals with HTTP headers, status codes, URL parsing, converting to and from JSON formats
+	- RPC deals with function calls using compact binary formats (especially protocol buffers) 
+		- Because it is binary, it takes up far less space and then things can move faster
+	- Messages are defined by protocol buffers (protobuf) - compact strongly typed language
+	- Developer defines inputs, outputs, and routes and gRPC generates client code in different languages
+- Considerations for Pagination:
+	- If you get a huge JSON payload, will be a high latency request and won't get data quickly
+		- Can solve with pagination
+	- Two kinds:
+		- Page
+			- Use query parameters to specify page we want and # of items
+		- Cursor
+			-  If you have many writes, then page based will often be out of order, will see same events or things aren't going to be consistent
+			- So use cursor based which tells u where to start
+				- Usually the last item you see
+			- Requires sorted
+- Considerations for security:
+	- Should proactively mention which endpoints are authenticated
+		- E.g. All users can view a business, but only authenticated users can edit a business
+	- Authenticate through JWT or session token:
+		- JWT: encodes user data and permissions directly into a signed token
+		- Session token: a random token which is used to find user info server side
+	- For interviews, should only specify the HTTP method, endpoint, body and any user info you need can be obtained via the JWT or Session token

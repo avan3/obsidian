@@ -20,6 +20,10 @@
 - **What is a bean**
 	- Beans are objects whose instantiation is manager by the application context (Spring IoC container)
 	- Can inject it as a dependency by autowiring it
+- **What does @Autowired do?**
+	- Used for dependency injection
+	- Tells the Spring Framework to automatically resolve and inject the required dependencies into a class
+	- Eliminates need for manual object creation and management
 - **What is difference between @RestController and @Controller in Spring Boot**
 	- `@Controller` map the model object to view or template to make it human readable
 		- Specialization of the `@Component` annotation
@@ -114,7 +118,16 @@
 	- Setter Injection: by calling the setter method
 	- Constructor Injection: by calling the target bean constructor
 	- Field Injection: via Reflection API
-- **SPRING MVC**
+- **SPRING MVC**:
+	- The MVC pattern separates the application into three main components: model, view, and controller.
+	- ![[Pasted image 20251015204622.png]]
+	- Key features:
+		- **DispatcherServlet:** The DispatcherServlet is the central component of Spring MVC. It is responsible for routing incoming requests to the appropriate controllers.
+		- **Controllers:** Controllers are responsible for handling user requests and updating the model.
+		- **Views:** Views are responsible for rendering the model data to the user.
+		- **Handler mappings:** Handler mappings map requests to controllers.
+		- **View resolvers:** View resolvers determine the view that should be used to render the model data.
+		- **Locale resolvers:** Locale resolvers determine the locale that should be used to render the view. (Locale means a set of parameters that defines the user’s language, which comes from the client side).
 - **JPA/HIBERNATE**
 - **What is a DTO**
 	- Data transfer object
@@ -229,4 +242,74 @@
 		- Automatic application restarts when code changes
 		- LiveReload support for UI updates
 		- Configurable properties to disable caching
-- 
+- **Spring JPA**
+	- Transient vs Detached entity:
+		- Transient: when an entity is not associated with any persistence context and is not managed by the EntityManager
+			- i.e. POJO that has not been persisted to the db or retrieved from it
+			- i.e. objects created with "new" keyword
+			- Requires "CascadeType.PERSIST" or manual persist to persistence context
+		- Detached: when an entity was previously managed by persistence context (i.e. retrieved from db or persisted) but is no longer associated with it
+			- Happens when persistence context is closed or entity is explicitly detached
+			- Requires "CascadeType.MERGE" or manual merge back to persistence context
+	- Persistence context:
+		- Runtime environment where entity instances are managed
+		- Acts as a first-level cache ensuring any changes made to entities are tracked and synchronized with the database
+		- Changes to entities that are managed by EntityManager are automatically detected and persisted to the database during a transaction commit
+			- Does not require explicit "save" method in JPA
+		- Lifecycle is tied with EntityManager - when EntityManager is closed, persistence context is also closed
+	- Persist vs Merge:
+		- Persist: used to make a transient entity managed and persist to the database
+			- Will throw exception if entity is already in database
+			- Returns void
+		- Merge:
+			- Used to update the database with the state of a detached entity or to reattach a detached entity to the persistence context
+			- Behaviour:
+				- If the entity already exists in database, UPDATE
+				- If entity does not exist, INSERT
+				- Method returns a managed copy of the entity, while the original entity remains detached
+	- CascadeType.ALL:
+		- Includes PERSIST, MERGE, REMOVE, REFRESH, DETACH
+		- Advantage:
+			- Simplified operations: persistence operations are cascaded to associated entities
+			- Consistency: parent and child entities remain in sync
+		- Disadvantage:
+			- Unintended propagation: REMOVE operation can unintentionally delete child entities, leading to data loss
+			- Performance overhead
+			- Complex debugging: issues in child entities can propagate back to parent
+			- Locking issues: MERGE or LOCK can lead to locking conflicts or deadlocks in concurrent environments
+			- Circular references: in bidirectional relationships, improper handling of cascading can lead to infinite loops or stack overflow errors
+	- Database locks:
+		- PESSIMISTIC_WRITE:
+			- Prevents other transactions from acquiring any kind of lock on the entity
+			- No other transaction can read or write the locked data until the current transaction releases the lock
+			- Use when:
+				- Want to update data and prevent other transactions from reading or modifying it simultaneously
+				- Write-heavy, high-conflict scenarios
+			- Risk of deadlocks
+		- PESSIMISTIC_READ:
+			- Prevents other transactions from acquiring a PESSIMISTIC_WRITE lock on the entity.
+			- Other transactions can still acquire a PESSIMISTIC_READ lock, allowing them to read the data but not modify it
+			- Use when:
+				- Want to ensure the data can be read is not modified by other transactions while you are reading it
+				- Write-heavy, high-conflict scenarios
+			- Risk of deadlocks
+		- Optimistic Locking:
+			- In JPA, done through a @Version field added to the entity
+			- When entity is updated, the version is checked to ensure it matches the version in the database
+			- If versions do not match, an OptimisticLockException is thrown, indicating that another 
+				- If encounter this exception, can retry the operation a limited number of times
+				- Ensure method is annotated with @Transactional
+			- High concurrency
+			- Risk of conflicts
+			- Use when:
+				- Read-heavy, low-conflict scenarios
+	- orphanRemoval:
+		- Feature that automatically deletes child entities when they are removed from their parent entity collection. 
+		- If not set, then removing a child entity from the parent will not delete the child from the database
+- **Logging levels**:
+	- ERROR: something has failed, and application might not be able to continue running
+	- WARN: Indicates a potential problem that might not immediately affect functionality but warrants attention
+	- INFO: provides general information about applications operation
+	- DEBUG: offers detailed insights for developers to diagnose issues or understand the flow
+	- TRACE: gives more granular details than DEBUG, often including iterative or repetitive processes
+	- Each level is inclusive of the levels above it (i.e. if you set the level to WARN, you'll also see ERROR messages, but not INFO, DEBUG, or TRACE)

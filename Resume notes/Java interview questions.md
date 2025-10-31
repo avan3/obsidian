@@ -25,8 +25,9 @@
 	- hashCode() returns an integer that represents the current instance of the class
 	- I believe you can use the hashcode generated to determine whether two objects are equal
 - **What is Serializable**
-	- Extending Serializable allows the object to be converted into a byte stream (serialization) which then can be converted back into an object (deserialization)
-	- SerialVersionUID - a class version that is used to verify that the current version of the class is compatible during deserialization (can be backwards compatible)
+	- Implementing Serializable allows the object to be converted into a byte stream (serialization) which then can be converted back into an object (deserialization)
+	- serialVersionUID - a class version that is used to verify that the current version of the class is compatible during deserialization (can be backwards compatible)
+		- E.g. `private static final long serialVersionUID = 1L;`
 - **Local, instance, and class variables**
 	- Local variable: declared within a code block such as a method 
 	- Instance variables: declared inside a class but outside of a method
@@ -36,9 +37,11 @@
 - **Widening vs Narrowing**
 	- Widening is when you pass a smaller data type into a larger size type
 	- Narrowing is the opposite
-- **What are wrapper clases**
+- **What are wrapper classes**
 	- Provide object representation of primitive data types, such as Integers, Doubles, Booleans
 	- Allow primitives to be used in collections and provide useful utility methods
+	- All wrapped classes are immutable
+		- Reassigning the value will create a new object and assign the value to it
 - **Transient and Volatile and Atomic**
 	- Transient keyword excludes fields as serialization
 		- Implement `writeObject()` and `readObject()` methods to control serialization
@@ -54,6 +57,8 @@
 		- Thread-safe
 		- E.g. AtomicInteger
 			- Ensures value is incremented by multiple threads and value is updated correctly
+- **What is thread-safe?**
+	- Means a class or piece of code can be accessed and manipulated by multiple threads concurrently without causing data corruption, race conditions, or inconsistent behaviour
 - **Characteristics of OO programming languages**
 	- Abstraction
 		- Hiding away information, and only exposing what is necessary
@@ -64,6 +69,7 @@
 	- Inheritance 
 		- Creating a new class from an existing class
 		- Subclass is created from Superclass (parent-child relationship) where subclass inherits can inherit the properties and methods from the superclass depending on the appropriate access controls (i.e. protected and public, but not private)
+		- E.g. Animal super class, Dog and Cat subclass
 	- Polymorphism
 		- Multiple classes are able to use the same method name
 		- Overloading vs Overriding:

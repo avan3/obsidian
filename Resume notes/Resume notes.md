@@ -69,6 +69,14 @@
 		- Instead of creating concrete classes within another class which will tightly couple the two classes, we should use interfaces to allow us to use different implementations
 		- E.g. Computer class with Keyboard and Mouse class. The Computer class shouldn't have a concrete class for Keyboard and Mouse because that would mean we would need to update the Computer class whenever the Keyboard or Mouse changes.
 		- Instead we should create and pass the concrete classes for Keyboard and Mouse from outside the Computer class which can be used within the Computer class as we set interfaces inside the class
+- **Key Phases of the SDLC**
+	- **Planning:** Define project scope, goals, business cases, budget, and resources, laying the foundation for the project. 
+	- **Requirements Analysis:** Gather and thoroughly document user and stakeholder needs to build the software. 
+	- **Design:** Convert requirements into a detailed plan, outlining the system architecture, user interfaces, and database structure. 
+	- **Development (Implementation):** Developers write the actual code based on the design blueprints. 
+	- **Testing:** Rigorously test the code for bugs, integration issues, security vulnerabilities, and overall performance to ensure it functions as intended. 
+	- **Deployment:** Release the software into the production environment for users. 
+	- **Maintenance:** Provide ongoing support, updates, and monitoring to ensure the software continues to operate effectively and meet customer expectations.
 - **XBRL (eXtensible Business Reporting Language)** 
 	- Is a standard (sounds like a de-facto standard) that involves tagging financial data so that it can be used in computer software and promotes communication between entities that will use the data (for purposes of reporting)
 **Resume specific notes**

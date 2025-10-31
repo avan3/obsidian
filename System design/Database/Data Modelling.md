@@ -1,0 +1,82 @@
+- What is it?
+	- Process of defining how your application's data is structured, stored, and related
+- Need to decide what entities of tables exist, how you're going to be able to identify or find them, and how they relate or connect to one another
+- When do to data modelling? --> After requirements for discussing core entities (what entities/tables exist) and during high level design (how they're stored, related, etc. Also, fields columns, relationships, indexes are needed to satisfy the basic requirements)
+	- E.g. for an Auction, there are these entities:
+		- Auction, Item, Bid, User
+	- Then in high level design, can show the fields for the entities and how it relates via a foreign key
+	- Outlined out in context in order to justify how we serve or satisfy those API endpoints or functional requirements
+- Before we model our data, we need to identify the type of database we want to use (different databases shape how you structure your data):
+	- Most of the time relational database is sufficient (e.g. PostGres), unless there is a specific use-case
+	- E.g. Relational database for Instagram
+		- User Table, Post table with id, userId (fk), and content, and Likes table with userId (fk), and postId (fk)
+	- E.g. Document database (MongoDB, firestore) for Instagram
+		- Stores data as JSON like documents
+		- Flexible schemas is the **MAIN REASON** you would choose Document database
+			- But because you initially clear up the entity schema with the interviewer, there isn't usually an opportunity for flexible schema unless the interviewer explicitly throws that at you
+		- Post data is embedded into user information. But could also have Post data with the user information embedded into it
+		- Data is embedded into the JSON because they don't have the level of support for JOINS as relational databases do (but they do have some support)
+	- E.g. Key-Value store (Redis, DynamoDB)
+		- Store values and fetch them by an exact key match
+		- Key-value store can contain a flattened document based on the query pattern
+		- Very fast because you're only looking up the data based on a key
+		- Limited in the sense that you can't query findAllPosts from the last week or getPosts by users that I follow
+		- De-normalize data and duplicate across multiple keys
+		- Good for storing hot data typically in front of a database
+	- E.g. Wide Column databases
+		- Involve column families
+		- Instead of having fixed columns, each row can have different columns
+		- Column family is "Posts". Each row gets it's own columns
+		- Supports massive write volume
+			- Writes are incredibly fast because you append new columns instead of modifying things that already exist
+		- Good for systems with many writes and don't need to query them in some ordered manner
+		- Time series database, event logging or rarely updated old data
+		- Even in a scenario where you have high write volume, you can use a queue in front or batching writes
+	- E.g. Graph Databases
+		- Users as a node --> edge either being posted or liked --> another node which is the Post
+		- Should never have to use Graph databases in interview
+			- Even Facebook models their social graph using MySQL (relational database)
+- Schema Design
+	- Three key factors:
+		- Data volume: Where can data physically live? (Single DB vs Distributed)
+			- E.g. if building a social media app like Instagram with millions to billions of users, would need to spread that data across mulyiple sytems
+		- Access patterns: How is data queried? (drives indexes & structure)
+			- Comes from API
+			- Most important factor
+			- E.g. news feed loading recent posts by followed users suggests you want to de-normalize that data or have specific index so that query can be very fast
+			- Have to ask yourself what queries you'll need to support at each endpoint, and how to make them fast enough for a good user experience
+		- Consistency requirements: How strict? (ACID vs eventually consistency)
+			- How tightly coupled data can be
+			- E.g. financial transactions need strong consistency so keep related data in the same database
+			-  E.g. Users activity feed can handle some eventual consistency so can distribute that data across several systems, maybe even a cache 
+	- Would come up with the three key factors in requirement gathering phase of the interview or API design
+
+-  Entities, Key & Relationships
+	- Primary Key (PK) - unique identifier for each record in a table
+		- Usually a monotonic increasing id, or potentially a randomly generated id
+		- Ensures we can always uniquely identify any given record
+	- Foreign Key (FK) - field in one table that points to a primary key in another table to create relationship
+		- E.g. In Post table, we would have user ID as a foreign key. This is what creates the relationship (i.e. Post belongs to this user)
+		- Enforce referential integrity (i.e. database won't let you create a Post that references a user that doesn't exist)
+	- E.g. posts.id refers to the post we are liking or commenting on, users.id is who is doing the liking or commenting or posting
+		- users: id (PK), username, email (unique)
+		- posts: id (PK), user_id (FK -> users.id), content, created_at
+		- comments: id (PK), post_id (FK -> posts.id), user_id (FK -> users.id), content
+		- likes: user_id(FK -> users.id), post_id (FK -> posts.id)
+	-  Constraints: Enforce correctness at a database level
+		- Not null: value in column is not null
+		- Unique: value in column is unique
+		- Check: follow some rule
+		
+- Normalization vs Denormalization:
+	- Normalization means you're storing each piece of information in exactly one location
+		- E..g. User information only lives in the user table and is not duplicated across any other tables
+		- Prevents anomalies where you might update a users email in one place but forget to do it in another place, leading to inconsistent data
+	- Denormalization is deliberately duplicating data across tables for performance purposes
+		- E.g. UserPost table with user data AND post data 
+		- Allows you to get user and post data without needing to perform a JOIN between two tables
+	- Should always start with a normalized model ALWAYS, and only denormalize when you have a specific performance need that can't be met by indexing, or anything else
+	- If you denormalize, best to put it in the cache
+	
+- Indexing
+	- 

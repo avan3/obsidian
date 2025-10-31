@@ -26,6 +26,7 @@
 		- Cleanup just before Angular destroys the directive or component
 		- Unsubscribe observables and detach event handlers to avoid memory leaks
 		- Called immediately before Angular destroys the directive or component
+	- ![[Pasted image 20250903164502.png]]
 	- ![[Pasted image 20250407100259.png]] 
 - **Constructor vs ngOnInit**
 	- Constructor is the default method of the class that is executed when the class is instantiated and ensures proper initialization of the fields in the class and its subclasses
@@ -185,9 +186,11 @@
 - **What is a service**
 	- A class with a `@Injectable` decorator (and potentially `providedIn` option) that is used when common functionality needs to be provided to various modules (i.e. abstracting away functionality to a class to be used in different places)
 - **What is an async pipe**
-	- TODO
+	- Built-in pipe designed to simplify the handling of asynchronous data in templates
+	- E.g. *ngIf=""data$ | async as data"
 - **What are template expressions**
 	- https://www.angular.kr/guide/understanding-template-expr-overview
+	- E.g. interpolation {{expression}}
 - **What are template statements**
 	- Methods or properties that you can use in your HTML to respond to user events
 	- Application can engage users through actions such as displaying dynamic content or submitting forms
